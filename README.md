@@ -1,3 +1,4 @@
 # presonalnote
 it's markdown notes.
-- Python 库的中文学习
+- 2023.3.29 version1.0
+- 2023.3.30 version1.1

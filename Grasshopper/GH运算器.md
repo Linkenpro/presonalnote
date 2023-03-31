@@ -3562,6 +3562,42 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 通过指导用直线确定的方向，在两个平面之间绘制一根与两个平面相交的直线。
 
+### **Line 4Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/1028491068fd880288.png)
+
+其实就是rhino手工里的四点绘制直线。【Line】决定方向，【Point A&B】决定生成直线的首尾点。
+
+### **Line SDL**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/10315398dac9733345.png)
+
+根据起点【Start】，方向【Direction】，距离【Length】三要素来绘制直线的运算器，算是我个人最常用的直线绘制运算器了。
+
+### **Tangent Lines**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/103511f0864c868541.png)
+
+求一个点到指定圆的两个相切点之间的直线。
+
+### **Tangent Lines (Ex)**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/103658a38291790590.png)
+
+求两个圆之间的相切线。
+
+### **Tangent Lines (In)**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/103819bf1c45667139.png)
+
+求两个圆的内切线。
+
+
+
+
+
+
+
 ###### 未完
 
 # Mesh

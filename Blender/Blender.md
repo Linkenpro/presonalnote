@@ -9,3 +9,4 @@ hdr图下载：https://polyhaven.com/
 ###### 隐藏`HDR`贴图背景，不渲染背景
 
 渲染属性>胶片>透明
+

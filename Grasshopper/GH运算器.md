@@ -3458,3 +3458,139 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 这一组里的运算器基本上都是涉及等分的，只是方式不同，结果不同，有的是点，有的是平面等，都挺常用的。
 
+### Contour等距断线点
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/15452229ef12579156.png)
+
+等距断线点······，差不多这么个意思，就是对线按照指定方向切割。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/1552099369a6527509.png)
+
+### Contour (ex)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/160637dba589658163.png)
+
+通过指定工作平面的偏移平面与曲线相交求交点，有两种方式。一种是offset端指定偏移距离，一种是Distance指定平面之间的距离。二选一，如果Offset端和Distance端都设置了，则以Offset数据为准求相交点。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/160843b90615598550.png)
+
+### Dash Pattern
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/161346a8d739635075.png)
+
+模拟虚线效果的神器，根据Pattern端指定的间距对曲线进行分段。尤其是很多时候我们想做一些复杂的空间分析图的时候，比如：
+
+[Ace咖啡GH建模vray动画分析图一条龙](http://www.rhinostudio.cn/course/1489)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/1615440757d0465523.jpg)
+
+### Divide Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/162025914442953663.png)
+
+等分曲线。需要注意的是，开放曲线等分点是等分数+1，封闭曲线的等分点等于等分数。返回值除了等分点，还有每个点所在曲线的切线方向以及t值。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/162202a0752b559046.png)
+
+而Kinks输入端控制不连续曲线等分时要不要在拐角处生成点。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/162357dc202c073647.gif)
+
+### Divide Distance
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/1625288cbc30355199.png)
+
+根据距离等分曲线。下面这么一整，你就知道什么意思了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/162652c2724d633051.png)
+
+### Divide Length
+
+按照长度等分曲线。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/16284089bd38039284.png)
+
+### Shatter
+
+在指定t值位置处对分割曲线。经常配合各种等分运算器对曲线分段。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/16302626492d638134.png)
+
+### Curve Frames
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/163214e3fe5f527665.png)
+
+等分曲线，以等分点所在曲线切线方向为x轴，垂直方向为y轴组成的多个工作平面。需要注意的是，工作平面是和曲线切线和垂线有关，并不是平行于xy平面的，所以空间曲线等分得到的工作平面是空间的。这个需要注意。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/163348ce9cb6043189.png)
+
+### Horizontal Frames
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/1635208a2274989685.png)
+
+下面这个运算器就是为了解决上一个运算器的问题，它生成的工作平面都是和xy平面平行的。我们经常会用这个运算器来做幕墙竖挺，保证竖挺垂直于曲线。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-09/20292118531f633910.png)
+
+### Perp Frames
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/163832843bfe781983.png)
+
+等分曲线得到与曲线垂直的工作平面。利用它可以很容易来布置一些变截面。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-07/164323bc0f57742296.png)
+
+## Primitive
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/120554260fb8426773.png)
+
+### Fit Line
+
+生成一条最逼近所给点集的直线。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-10/114624041557956451.png)
+
+### **Line**
+
+通过起点终点绘制一条直线。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-10/1147368394c2418666.png)
+
+### **Line 2Plane**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/10260802d2f5978511.png)
+
+通过指导用直线确定的方向，在两个平面之间绘制一根与两个平面相交的直线。
+
+###### 未完
+
+# Mesh
+
+## Analysis
+
+![img](https://img.kancloud.cn/33/26/33269a4eac286968380c218d41a80686_460x392.png)
+
+### Deconstruct Mesh & Face
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/220339b25f2f311950.png)
+
+### **Deconstruct Mesh**
+
+将网格分解成点，面，颜色，以及其法线方向等基本元素。一般处理网格时建议打开【Preview Mesh Edges】或者快捷键Ctrl + M。
+
+### **Deconstruct Face**
+
+提取得到网格面的四个角点的序号，这对后期利用这些序号重建网格很有用。因为我们知道网格嘛，就是用四边面或者三角面去拼合拟合对象，每一个单元都是一个小的网格，每个网格由三或四个顶点构成，计算机只要记录网格的顶点坐标和顶点顺序即可。所以这里的Deconstruct Face其实就是拆解得到构建网格点的点序。
+
+### **Face Normals**
+
+提取网格中每一个面的中心点以及这个中心点所在面的法线方向。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/221958e88195757822.png)
+
+### **Mesh Edges**
+
+提取网格边缘线，分裸露边缘线，内部边缘线，非流性边缘，前两个很好理解，这里说一下第三个，非流形边缘，其实咱们前面也遇到过，简单说，就是由三个或三个以上边缘相交的边缘，这种边缘是非法的会出问题，所以要尽量避免。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/222848013c31413111.png)
+

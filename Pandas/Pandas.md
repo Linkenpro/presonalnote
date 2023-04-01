@@ -2,13 +2,13 @@
 
 ![img](https://www.runoob.com/wp-content/uploads/2021/04/pandas.png)
 
-Pandas 是 Python 语言的一个扩展程序库，用于数据分析。
+`Pandas`是`Python`语言的一个扩展程序库，用于数据分析。
 
 Pandas 是一个开放源码、BSD 许可的库，提供高性能、易于使用的数据结构和数据分析工具。
 
 Pandas 名字衍生自术语 "panel data"（面板数据）和 "Python data analysis"（Python 数据分析）。
 
-Pandas 一个强大的分析结构化数据的工具集，基础是 [Numpy](https://www.runoob.com/numpy/numpy-tutorial.html)（提供高性能的矩阵运算）。
+Pandas 一个强大的分析结构化数据的工具集，基础是`Numpy`（提供高性能的矩阵运算）。
 
 Pandas 可以从各种文件格式比如 CSV、JSON、SQL、Microsoft Excel 导入数据。
 
@@ -926,3 +926,775 @@ print(data)
 Name: students, dtype: int64
 ```
 
+# Pandas 数据清洗
+
+数据清洗是对一些没有用的数据进行处理的过程。
+
+很多数据集存在数据缺失、数据格式错误、错误数据或重复数据的情况，如果要对使数据分析更加准确，就需要对这些没有用的数据进行处理。
+
+在这个教程中，我们将利用 Pandas包来进行数据清洗。
+
+本文使用到的测试数据 [property-data.csv](https://static.runoob.com/download/property-data.csv) 如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/6A6DE9DA-E0EE-4001-8C21-1D6A8EBF70FF.jpeg)
+
+上表包含了四种空数据：
+
+# Pandas 数据清洗
+
+数据清洗是对一些没有用的数据进行处理的过程。
+
+很多数据集存在数据缺失、数据格式错误、错误数据或重复数据的情况，如果要对使数据分析更加准确，就需要对这些没有用的数据进行处理。
+
+在这个教程中，我们将利用 Pandas包来进行数据清洗。
+
+本文使用到的测试数据 [property-data.csv](https://static.runoob.com/download/property-data.csv) 如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/6A6DE9DA-E0EE-4001-8C21-1D6A8EBF70FF.jpeg)
+
+上表包含了四种空数据：
+
+- n/a
+- NA
+- —
+- na
+
+## Pandas 清洗空值
+
+如果我们要删除包含空字段的行，可以使用 **dropna()** 方法，语法格式如下：
+
+```
+DataFrame.dropna(axis=0, how='any', thresh=None, subset=None, inplace=False)
+```
+
+**参数说明：**
+
+- axis：默认为 **0**，表示逢空值剔除整行，如果设置参数 **axis＝1** 表示逢空值去掉整列。
+- how：默认为 **'any'** 如果一行（或一列）里任何一个数据有出现 NA 就去掉整行，如果设置 **how='all'** 一行（或列）都是 NA 才去掉这整行。
+- thresh：设置需要多少非空值的数据才可以保留下来的。
+- subset：设置想要检查的列。如果是多个列，可以使用列名的 list 作为参数。
+- inplace：如果设置 True，将计算得到的值直接覆盖之前的值并返回 None，修改的是源数据。
+
+我们可以通过 **isnull()** 判断各个单元格是否为空。
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+print (df['NUM_BEDROOMS'])
+print (df['NUM_BEDROOMS'].isnull())
+
+>>>
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/2A5B93BC-E0A3-4864-98B7-7DAE0E92C5F2.jpg)
+
+以上例子中我们看到 Pandas 把 n/a 和 NA 当作空数据，na 不是空数据，不符合我们要求，我们可以指定空数据类型：
+
+```python
+import pandas as pd
+
+missing_values = ["n/a", "na", "--"]
+df = pd.read_csv('property-data.csv', na_values = missing_values)
+
+print (df['NUM_BEDROOMS'])
+print (df['NUM_BEDROOMS'].isnull())
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/FCE8C077-C981-4764-ACBC-CB129304F831.jpg)
+
+#### 接下来的实例演示了删除包含空数据的行。
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+new_df = df.dropna()
+
+print(new_df.to_string())
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/4744B204-1527-49DE-B749-E39D6C7DFE01.jpg)
+
+**注意：**默认情况下，dropna() 方法返回一个新的 DataFrame，不会修改源数据。
+
+如果你要修改源数据 DataFrame, 可以使用 **inplace = True** 参数:
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+df.dropna(inplace = True)
+
+print(df.to_string())
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/4744B204-1527-49DE-B749-E39D6C7DFE01.jpg)
+
+我们也可以移除指定列有空值的行：
+
+```python
+# 实例
+# 移除 ST_NUM 列中字段值为空的行：
+
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+df.dropna(subset=['ST_NUM'], inplace = True)
+
+print(df.to_string())
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/C83C70BC-5E47-4397-938D-7445104BE551.jpg)
+
+我们也可以 **fillna()** 方法来替换一些空字段：
+
+```python
+# 使用 12345 替换空字段：
+
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+df.fillna(12345, inplace = True)
+
+print(df.to_string())
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/5033AA75-BC7D-4192-9428-221765EA3C58.jpg)
+
+我们也可以指定某一个列来替换数据：
+
+## 实例
+
+使用 12345 替换 PID 为空数据：
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+df['PID'].fillna(12345, inplace = True)
+
+print(df.to_string())
+
+>>>
+```
+
+以上实例输出结果如下：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/2F955E95-8C4C-4E7C-B788-5714B2C898C2.jpg)
+
+替换空单元格的常用方法是计算列的均值、中位数值或众数。
+
+Pandas使用 **mean()**、**median()** 和 **mode()** 方法计算列的均值（所有值加起来的平均值）、中位数值（排序后排在中间的数）和众数（出现频率最高的数）。
+
+###### 使用 mean() 方法计算列的均值并替换空单元格：
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+x = df["ST_NUM"].mean()
+
+df["ST_NUM"].fillna(x, inplace = True)
+
+print(df.to_string())
+
+>>>
+
+```
+
+以上实例输出结果如下，红框为计算的均值替换来空单元格：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/6A758363-02FA-4F6E-9F30-7A3E4489639A.jpg)
+
+## 实例
+
+使用 median() 方法计算列的中位数并替换空单元格：
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+x = df["ST_NUM"].median()
+
+df["ST_NUM"].fillna(x, inplace = True)
+
+print(df.to_string())
+
+>>>
+
+```
+
+以上实例输出结果如下，红框为计算的中位数替换来空单元格：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/551B8875-D393-4003-BB68-695EBEDBB0FE.jpg)
+
+## 实例
+
+使用 mode() 方法计算列的众数并替换空单元格：
+
+```python
+import pandas as pd
+
+df = pd.read_csv('property-data.csv')
+
+x = df["ST_NUM"].mode()
+
+df["ST_NUM"].fillna(x, inplace = True)
+
+print(df.to_string())
+```
+
+以上实例输出结果如下，红框为计算的众数替换来空单元格：
+
+![img](https://www.runoob.com/wp-content/uploads/2021/06/40F6D1C2-CFD7-4C53-B887-86695F486E6D.jpg)
+
+------
+
+## Pandas 清洗格式错误数据
+
+数据格式错误的单元格会使数据分析变得困难，甚至不可能。
+
+我们可以通过包含空单元格的行，或者将列中的所有单元格转换为相同格式的数据。
+
+以下实例会格式化日期：
+
+```python
+import pandas as pd
+
+# 第三个日期格式错误
+data = {
+  "Date": ['2020/12/01', '2020/12/02' , '20201226'],
+  "duration": [50, 40, 45]
+}
+
+df = pd.DataFrame(data, index = ["day1", "day2", "day3"])
+
+df['Date'] = pd.to_datetime(df['Date'])
+
+print(df.to_string())
+
+>>>
+以上实例输出结果如下：
+
+           Date  duration
+day1 2020-12-01        50
+day2 2020-12-02        40
+day3 2020-12-26        45
+```
+
+## Pandas 清洗错误数据
+
+数据错误也是很常见的情况，我们可以对错误的数据进行替换或移除。
+
+以下实例会替换错误年龄的数据：
+
+```python
+import pandas as pd
+
+person = {
+  "name": ['Google', 'Runoob' , 'Taobao'],
+  "age": [50, 40, 12345]    # 12345 年龄数据是错误的
+}
+
+df = pd.DataFrame(person)
+
+df.loc[2, 'age'] = 30 # 修改数据
+
+print(df.to_string())
+
+>>>
+     name  age
+0  Google   50
+1  Runoob   40
+2  Taobao   30
+```
+
+也可以设置条件语句：
+
+## 实例
+
+将 age 大于 120 的设置为 120:
+
+```python
+import pandas as pd
+
+person = {
+  "name": ['Google', 'Runoob' , 'Taobao'],
+  "age": [50, 200, 12345]    
+}
+
+df = pd.DataFrame(person)
+
+for x in df.index:
+  if df.loc[x, "age"] > 120:
+    df.loc[x, "age"] = 120
+
+print(df.to_string())
+
+>>>
+     name  age
+0  Google   50
+1  Runoob  120
+2  Taobao  120
+```
+
+也可以将错误数据的行删除：
+
+## 实例
+
+将 age 大于 120 的删除:
+
+```python
+import pandas as pd
+
+person = {
+  "name": ['Google', 'Runoob' , 'Taobao'],
+  "age": [50, 40, 12345]    # 12345 年龄数据是错误的
+}
+
+df = pd.DataFrame(person)
+
+for x in df.index:
+  if df.loc[x, "age"] > 120:
+    df.drop(x, inplace = True)
+
+print(df.to_string())
+
+>>>
+     name  age
+0  Google   50
+1  Runoob   40
+```
+
+## Pandas 清洗重复数据
+
+如果我们要清洗重复数据，可以使用 **duplicated()** 和 **drop_duplicates()** 方法。
+
+如果对应的数据是重复的，**duplicated()** 会返回 True，否则返回 False。
+
+## 实例
+
+```python
+import pandas as pd
+
+person = {
+  "name": ['Google', 'Runoob', 'Runoob', 'Taobao'],
+  "age": [50, 40, 40, 23]  
+}
+df = pd.DataFrame(person)
+
+print(df.duplicated())
+
+>>>
+0    False
+1    False
+2     True
+3    False
+dtype: bool
+```
+
+删除重复数据，可以直接使用**drop_duplicates()** 方法。
+
+## 实例
+
+```python
+import pandas as pd
+
+persons = {
+  "name": ['Google', 'Runoob', 'Runoob', 'Taobao'],
+  "age": [50, 40, 40, 23]  
+}
+
+df = pd.DataFrame(persons)
+
+df.drop_duplicates(inplace = True)
+print(df)
+
+>>>
+     name  age
+0  Google   50
+1  Runoob   40
+3  Taobao   23
+```
+
+# Pandas 常用函数
+
+以下列出了 Pandas 常用的一些函数及使用实例：
+
+## 读取数据
+
+| 函数                                  | 说明                       |
+| :------------------------------------ | :------------------------- |
+| pd.read_csv(filename)                 | 读取 CSV 文件；            |
+| pd.read_excel(filename)               | 读取 Excel 文件；          |
+| pd.read_sql(query, connection_object) | 从 SQL 数据库读取数据；    |
+| pd.read_json(json_string)             | 从 JSON 字符串中读取数据； |
+| pd.read_html(url)                     | 从 HTML 页面中读取数据。   |
+
+## 实例
+
+```python
+import pandas as pd
+
+# 从 CSV 文件中读取数据
+df = pd.read_csv('data.csv')
+
+# 从 Excel 文件中读取数据
+df = pd.read_excel('data.xlsx')
+
+# 从 SQL 数据库中读取数据
+import sqlite3
+conn = sqlite3.connect('database.db')
+df = pd.read_sql('SELECT * FROM table_name', conn)
+
+# 从 JSON 字符串中读取数据
+json_string = '{"name": "John", "age": 30, "city": "New York"}'
+df = pd.read_json(json_string)
+
+# 从 HTML 页面中读取数据
+url = 'https://www.runoob.com'
+dfs = pd.read_html(url)
+df = dfs[0] # 选择第一个数据框
+```
+
+## 查看数据
+
+| 函数          | 说明                                                       |
+| :------------ | :--------------------------------------------------------- |
+| df.head(n)    | 显示前 n 行数据；                                          |
+| df.tail(n)    | 显示后 n 行数据；                                          |
+| df.info()     | 显示数据的信息，包括列名、数据类型、缺失值等；             |
+| df.describe() | 显示数据的基本统计信息，包括均值、方差、最大值、最小值等； |
+| df.shape      | 显示数据的行数和列数。                                     |
+
+## 实例
+
+```python
+# 显示前五行数据
+df.head()
+
+# 显示后五行数据
+df.tail()
+
+# 显示数据信息
+df.info()
+
+# 显示基本统计信息
+df.describe()
+
+# 显示数据的行数和列数
+df.shape
+```
+
+## 实例
+
+```python
+import pandas as pd
+
+data = [
+    {"name": "Google", "likes": 25, "url": "https://www.google.com"},
+    {"name": "Runoob", "likes": 30, "url": "https://www.runoob.com"},
+    {"name": "Taobao", "likes": 35, "url": "https://www.taobao.com"}
+]
+
+df = pd.DataFrame(data)
+# 显示前两行数据
+print(df.head(2))
+# 显示前最后一行数据
+print(df.tail(1))
+
+>>>
+     name  likes                     url
+0  Google     25  https://www.google.com
+1  Runoob     30  https://www.runoob.com
+     name  likes                     url
+2  Taobao     35  https://www.taobao.com
+```
+
+## 数据清洗
+
+| 函数                             | 说明                     |
+| :------------------------------- | :----------------------- |
+| df.dropna()                      | 删除包含缺失值的行或列； |
+| df.fillna(value)                 | 将缺失值替换为指定的值； |
+| df.replace(old_value, new_value) | 将指定值替换为新值；     |
+| df.duplicated()                  | 检查是否有重复的数据；   |
+| df.drop_duplicates()             | 删除重复的数据。         |
+
+## 实例
+
+```python
+# 删除包含缺失值的行或列
+df.dropna()
+
+# 将缺失值替换为指定的值
+df.fillna(0)
+
+# 将指定值替换为新值
+df.replace('old_value', 'new_value')
+
+# 检查是否有重复的数据
+df.duplicated()
+
+# 删除重复的数据
+df.drop_duplicates()
+```
+
+## 数据选择和切片
+
+| 函数                                          | 说明                         |
+| :-------------------------------------------- | :--------------------------- |
+| df[column_name]                               | 选择指定的列；               |
+| df.loc[row_index, column_name]                | 通过标签选择数据；           |
+| df.iloc[row_index, column_index]              | 通过位置选择数据；           |
+| df.ix[row_index, column_name]                 | 通过标签或位置选择数据；     |
+| df.filter(items=[column_name1, column_name2]) | 选择指定的列；               |
+| df.filter(regex='regex')                      | 选择列名匹配正则表达式的列； |
+| df.sample(n)                                  | 随机选择 n 行数据。          |
+
+### 实例
+
+```python
+# 选择指定的列
+df['column_name']
+
+# 通过标签选择数据
+df.loc[row_index, column_name]
+
+# 通过位置选择数据
+df.iloc[row_index, column_index]
+
+# 通过标签或位置选择数据
+df.ix[row_index, column_name]
+
+# 选择指定的列
+df.filter(items=['column_name1', 'column_name2'])
+
+# 选择列名匹配正则表达式的列
+df.filter(regex='regex')
+
+# 随机选择 n 行数据
+df.sample(n=5)
+```
+
+## 数据排序
+
+| 函数                                                         | 说明                 |
+| :----------------------------------------------------------- | :------------------- |
+| df.sort_values(column_name)                                  | 按照指定列的值排序； |
+| df.sort_values([column_name1, column_name2], ascending=[True, False]) | 按照多个列的值排序； |
+| df.sort_index()                                              | 按照索引排序。       |
+
+## 实例
+
+```python
+# 按照指定列的值排序
+df.sort_values('column_name')
+
+# 按照多个列的值排序
+df.sort_values(['column_name1', 'column_name2'], ascending=[True, False])
+
+# 按照索引排序
+df.sort_index()
+```
+
+## 数据分组和聚合
+
+| 函数                                            | 说明                         |
+| :---------------------------------------------- | :--------------------------- |
+| df.groupby(column_name)                         | 按照指定列进行分组；         |
+| df.aggregate(function_name)                     | 对分组后的数据进行聚合操作； |
+| df.pivot_table(values, index, columns, aggfunc) | 生成透视表。                 |
+
+## 实例
+
+```python
+# 按照指定列进行分组
+df.groupby('column_name')
+
+# 对分组后的数据进行聚合操作
+df.aggregate('function_name')
+
+# 生成透视表
+df.pivot_table(values='value', index='index_column', columns='column_name', aggfunc='function_name')
+```
+
+## 数据合并
+
+| 函数                               | 说明                             |
+| :--------------------------------- | :------------------------------- |
+| pd.concat([df1, df2])              | 将多个数据框按照行或列进行合并； |
+| pd.merge(df1, df2, on=column_name) | 按照指定列将两个数据框进行合并。 |
+
+## 实例
+
+```python
+# 将多个数据框按照行或列进行合并
+df = pd.concat([df1, df2])
+
+# 按照指定列将两个数据框进行合并
+df = pd.merge(df1, df2, on='column_name')
+```
+
+## 数据选择和过滤
+
+| 函数                                 | 说明                                   |
+| :----------------------------------- | :------------------------------------- |
+| df.loc[row_indexer, column_indexer]  | 按标签选择行和列。                     |
+| df.iloc[row_indexer, column_indexer] | 按位置选择行和列。                     |
+| df[df['column_name'] > value]        | 选择列中满足条件的行。                 |
+| df.query('column_name > value')      | 使用字符串表达式选择列中满足条件的行。 |
+
+------
+
+## 数据统计和描述
+
+| 函数          | 说明                                                 |
+| :------------ | :--------------------------------------------------- |
+| df.describe() | 计算基本统计信息，如均值、标准差、最小值、最大值等。 |
+| df.mean()     | 计算每列的平均值。                                   |
+| df.median()   | 计算每列的中位数。                                   |
+| df.mode()     | 计算每列的众数。                                     |
+| df.count()    | 计算每列非缺失值的数量。                             |
+
+------
+
+## 实例
+
+假设我们有如下的 JSON 数据，数据保存到 **data.json** 文件：
+
+## data.json 文件
+
+```json
+[
+  {
+    "name": "Alice",
+    "age": 25,
+    "gender": "female",
+    "score": 80
+  },
+  {
+    "name": "Bob",
+    "age": null,
+    "gender": "male",
+    "score": 90
+  },
+  {
+    "name": "Charlie",
+    "age": 30,
+    "gender": "male",
+    "score": null
+  },
+  {
+    "name": "David",
+    "age": 35,
+    "gender": "male",
+    "score": 70
+  }
+]
+```
+
+我们可以使用 Pandas 读取 JSON 数据，并进行数据清洗和处理、数据选择和过滤、数据统计和描述等操作，具体如下：
+
+```python
+import pandas as pd
+
+# 读取 JSON 数据
+df = pd.read_json('data.json')
+
+# 删除缺失值
+df = df.dropna()
+
+# 用指定的值填充缺失值
+df = df.fillna({'age': 0, 'score': 0})
+
+# 重命名列名
+df = df.rename(columns={'name': '姓名', 'age': '年龄', 'gender': '性别', 'score': '成绩'})
+
+# 按成绩排序
+df = df.sort_values(by='成绩', ascending=False)
+
+# 按性别分组并计算平均年龄和成绩
+grouped = df.groupby('性别').agg({'年龄': 'mean', '成绩': 'mean'})
+
+# 选择成绩大于等于90的行，并只保留姓名和成绩两列
+df = df.loc[df['成绩'] >= 90, ['姓名', '成绩']]
+
+# 计算每列的基本统计信息
+stats = df.describe()
+
+# 计算每列的平均值
+mean = df.mean()
+
+# 计算每列的中位数
+median = df.median()
+
+# 计算每列的众数
+mode = df.mode()
+
+# 计算每列非缺失值的数量
+count = df.count()
+```
+
+输出结果如下：
+
+```
+# df
+   姓名  年龄 性别  成绩
+1  Bob   0  male  90
+
+# grouped
+             年龄  成绩
+性别                
+female  25.000000  80
+male    27.500000  80
+
+# stats
+         成绩
+count   1.0
+mean   90.0
+std     NaN
+min    90.0
+25%    90.0
+50%    90.0
+75%    90.0
+max    90.0
+
+# mean
+成绩    90.0
+dtype: float64
+
+# median
+成绩    90.0
+dtype: float64
+
+# mode
+    姓名    成绩
+0  Bob  90.0
+
+# count
+姓名    1
+成绩    1
+dtype: int64
+```

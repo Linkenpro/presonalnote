@@ -11,3 +11,7 @@ pip install selenium
 地址
 
 http://chromedriver.storage.googleapis.com/index.html
+
+网址
+
+https://selenium-python-zh.readthedocs.io/en/latest/

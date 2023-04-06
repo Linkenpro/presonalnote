@@ -3510,7 +3510,7 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-07/16284089bd38039284.png)
 
-### Shatter
+### Shatter——指定t值位置处对分割曲线
 
 在指定t值位置处对分割曲线。经常配合各种等分运算器对曲线分段。
 
@@ -3591,6 +3591,116 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 ![img](http://www.rhinostudio.cn/files/course/2019/05-12/103819bf1c45667139.png)
 
 求两个圆的内切线。
+
+### **Circle**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/104035308332529128.png)
+
+根据指定工作平面【Plane】和半径【Radius】来绘制圆，最基础的绘制圆运算器。
+
+### **Circle 3Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/104410ac2f5b365262.png)
+
+三点绘制圆，并返回生成圆的所在平面和半径。
+
+### **Circle CNR**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/105702e7df6f470500.png)
+
+根据中心点【Center】，指定矢量方向【Normal】，和圆半径【Radius】来绘制圆，可以很容易的控制圆的方向，官方第三版教程就有一个案例，利用这个运算器做的干扰。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/1103313c4dc4861012.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/110347366c5f810596.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/110356c7d4db396626.png)
+
+### **Circle Fit**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/110611346d57298485.png)
+
+生成一个最逼近指定点集的圆，并返回其半径和最远点距离。
+
+### **Circle TanTan**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/11103069592a833401.png)
+
+求两个曲线之间的相切圆，【Point】作为指导控制相切圆所在位置，毕竟两个曲线之间的相切圆有很多个。
+
+### **Circle TanTanTan**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/111559f01e81641660.png)
+
+生成三个曲线之间的相切圆。
+
+### **Ellipse**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/111915362ae6519209.png)
+
+根据两个方向半径值绘制椭圆并返回其两个焦点。其实椭圆方程咱们高中时候都学过来着，来帮你回忆一下。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/112109533c98939342.png)
+
+### **InCircle**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/112407743d57932346.png)
+
+求三角形内切圆，毕竟三点一连就是三角形。
+
+### **InEllipse**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/1125382640c7276445.png)
+
+求三角形的内切椭圆。
+
+### **Arc**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/1128077df65a929052.png)
+
+绘制圆弧。
+
+### **Arc 3Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/115258a8743b144770.png)
+
+三点绘制圆弧。
+
+### **Arc SED**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/122153177478567969.png)
+
+根据起点终点以及起点处的矢量方向绘制圆弧。
+
+### **BiArc**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-12/122604ceb201283567.png)
+
+根据起点和终点以及起点终点的矢量方向来绘制两段圆弧组成的曲线。可以利用这个运算器的原理进行粗糙的圆弧拟合曲线，不是很准。
+
+![img](https://www.rhinostudio.cn/files/course/2019/05-13/0950499df714288079.png)
+
+想比较精准的圆弧拟合曲线，可以看一下遗传算法运算器当中给大家讲解的做法：
+
+[遗传算法专题篇：Galapagos运算器详解](http://www.rhinostudio.cn/course/1351)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/095524cbaf93731164.jpg)
+
+### **Modified Arc**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/09275283cc2a641703.png)
+
+修改制定圆弧，参照制定圆弧原点和平面，修改其半径和圆弧长度范围。
+
+### **Tangent Arcs**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/093003b327e6376187.png)
+
+绘制两个圆的相切圆弧。
+
+
+
+
 
 
 

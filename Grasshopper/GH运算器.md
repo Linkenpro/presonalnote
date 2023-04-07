@@ -3698,6 +3698,229 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 绘制两个圆的相切圆弧。
 
+### **Polygon**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/093155bbf437263605.png)
+
+多边形绘制运算器。
+
+### **Polygon Edge**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/10045798af72492985.png)
+
+根据边缘绘制多边形。和下面这个rhino当中的命令一个意思。
+
+### **Rectangle**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/100836490085561876.png)
+
+矩形绘制运算器。唯一需要注意的是，X和Y长度输入的是区间值。
+
+### **Rectangle 2Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/10160001cadd778257.png)
+
+两点绘制矩形。
+
+### **Rectangle 3Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-13/101717deb230249989.png)
+
+三点绘制矩形。
+
+## Spline
+
+### **Bezier Span**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/09393133e4f1277414.png)
+
+根据起点【Start Point】终点【End Point】以及各自位置的矢量方向创一个贝塞尔曲线，曲线的走势将完全根据两个矢量的方向以及大小来确定。算是绘制自由曲线的一种方法。
+
+### **Interpolate**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/09582950732f481434.png)
+
+绘制内插点曲线运算器。其中，KontStyle节点样式对应的和Rhino手工当中绘制内插点曲线的选项。一般我们默认使用均匀，这个也是官方A面建模教程当中老师的习惯，因为开启均匀后，即便你的点数比阶数少，也会自动给你增加点数来保证最简曲线，这也是官方老师绘制高质量曲线最常用的命令。不过，建筑···了解就好，在施工队面前，高质量都失去了意义。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/095959ff33a2939178.png)
+
+### **Interpolate (t)**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/1009575865d1241013.png)
+
+升级版内插点绘制曲线运算器，多了个起始点处矢量方向来控制曲线。默认生成三阶曲线。
+
+### **Kinky Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/1100342d9622071458.png)
+
+同样是内插点曲线的一种，不过增加了角度作为影响变量，当点连接成的折线之间的角度大于D角度的两倍时才进行曲线的连接，否则直接直线连接。
+
+### **Nurbs Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/1102295b81f8129692.png)
+
+控制点曲线绘制运算器。
+
+### **PolyArc**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/110517dbc101425918.png)
+
+根据点以及起点处的矢量方向绘制一个只有圆弧和直线组成的多段线。
+
+### **PolyLine**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/1108237a549c845280.png)
+
+绘制多段线。
+
+### **Tangent Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/11135319e708393519.png)
+
+根据多个点以及每个点的矢量方向来绘制曲线
+
+### **Curve On Surface**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/111822ec8c13802018.png)
+
+根据曲面上的点绘制样条曲线,不过必须得提供这些点在曲面上的uv值。
+
+### **Geodesic**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/1120320b7fbc441972.png)
+
+测地线，求曲面上两点间距离最近线。
+
+### **Iso Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/112224054d77861875.png)
+
+根据UV坐标值抽离曲面结构线。如果想批量提取结构线，可以这样：
+
+![img](http://www.rhinostudio.cn/files/course/2019/12-09/22314957cd25841239.png)
+
+有同学问如何提取疏密变化的结构线，其实做法也很简单，既然要让结构线疏密变化，那就让提取用的uvpoint疏密变化，而uvpoint可以通过点投影面得到，那咱们就拿疏密变化的点去投影曲面即可
+![img](https://img.kancloud.cn/df/38/df381eca7d994d9fe5f1300dc30539be_1400x596.png)
+
+### **Sub Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/12-24/2129222b8618033635.png)
+
+功能上和手工当中的截断曲线一样，并且截短曲线的命令也是subcrv，作用就是根据指定的t值区间来提取对应段的曲线，不过需要注意的是，之前也说了，t值不对应距离，t=0.5不代表是中点，区间是0 to 0.5不代表取得是曲线一半。这点需要注意了。除非你是直线。所以多半用不需要准确精度的操作中。
+
+![img](http://www.rhinostudio.cn/files/course/2019/12-24/213019b42ca4932060.png)
+
+### **Tween Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/113027318f81068602.png)
+
+在AB两条曲线之间生成一个过渡曲线,而Factor值用来控制生成的过渡曲线靠谁更近点,当然如果你输入复数值生成的就是多个过渡曲线。所以我们可以很容易的控制过度曲线的分布情况。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-14/113215f2d5b8592284.png)
+
+### **Knot Vector**
+
+根据点的数量【Count】，曲线阶数【Degree】，以及曲线是否周期性【Periodic】来生成节点矢量值。
+
+### **Nurbs Curve PWK**
+
+根据点【Points】，点的权重【Weights】，以及节点矢量值【Knots】来生成一个自由曲线，点的权重即每个点对曲线的影响力，0最小，1最大。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/091747b101c7452393.png)
+
+### **Blend Curve**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/092243350e34572033.png)
+
+混接曲线，在两条曲线直接建议一条满足目标连续性的自由曲线。注意曲线顺序。
+
+### **Blend Curve Pt**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/092506208c97825223.png)
+
+同样是混接曲线，不过改成了用点来控制混接效果，而不是上面的类似权重的值。就是说，混接的曲线必须经过指定的点。
+
+### **Catenary**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/0928480c9fce236743.png)
+
+根据指定曲线长度和矢量方向，生成悬链线，和Rhino当中的悬链线命令效果一样，简单说，就是模拟绳子啊，铁链啊，这种自由下坠生成的曲线，比自己画的更真实的下垂效果。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/09295313acd6254535.png)
+
+### **Connect Curves**
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/093154a05378297698.png)
+
+批量处理，多多个曲线进行混接，最后直接把所有线组合成一个曲线。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-15/0934262a6aae886994.gif)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

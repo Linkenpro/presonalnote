@@ -3849,7 +3849,7 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-15/09295313acd6254535.png)
 
-### **Connect Curves**
+### **Connect Curves（多曲线混合）**
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-15/093154a05378297698.png)
 
@@ -3857,43 +3857,407 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-15/0934262a6aae886994.gif)
 
+## Util
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/120636c44555273902.png)
+
+## Explode & Join
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-16/212011bc952b742272.png)
+
+### **Explode**
+
+炸开多重曲线，返回每一段线即分段点。需要注意的是，封闭曲线，炸开的时候首尾点会有重复，注意删除不需要的点。
+![img](http://www.rhinostudio.cn/files/course/2019/05-16/2122008b4521440886.png)
+
+### **Join**
+
+讲多个线段组合成一个多重曲线。前提是线与线之间端点距离小于公差。嗯？什么是公差？看一下这个帖子吧：[十一大高效的Rhino建模习惯](https://mp.weixin.qq.com/s/tIhymmQxetXTwHTCCoetcQ)
+
+### Extend Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-16/2125117cd67a425056.png)延长曲线,其中延长类型中输入0则为直线,1为圆弧,2为圆滑曲线。需要注意的是，即便你有一段不想延伸，你也得输入个0，不然会报错。
+
+### Flip Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-16/212947b73b9e666090.png)
+
+将曲线方向进行翻转，如果G端不输入，则翻转为反方向，如果G端输入了参照曲线，则不论原曲线方向如何，都翻转成和参照曲线一致。
+
+### Shortest Walk
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/19593134900e883125.png)
+
+找出一组曲线中沿着参照直线P方向，能最短从P起点到终点的线。
+
+### Fillet(t)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/200222ebfaeb779207.png)
+
+在曲线指定t值位置处对曲线进行倒角，不过比较尴尬的是，一次只能倒一个角。
+
+### Fillet
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/2004077a5e04558670.png)
+
+以指定半径对曲线所有拐角倒角。
+
+### Fillet Distance
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/20071753c693892835.png)
+
+以距离值而不是半径值倒角。
+
+### Offset Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/20091392aed3017839.png)
+
+偏移曲线，向内还是向外偏移根据D的正负决定，而C拐角类型输入0=无，1=锐角，2=圆角，3=柔滑曲线，4=斜角。再叨叨一遍，偏移曲线是逼近算法，控制点必定增多，所以不要去想什么偏移曲线之后还保持控制点一致了，保持控制点一致那距离必定不准。
+不理解为啥的可以看一下我这篇文章里的公差部分：
+[十一大高效的Rhino建模习惯](https://mp.weixin.qq.com/s/tIhymmQxetXTwHTCCoetcQ)
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/201157d9029a205260.png)
+不过有的同学会遇到的一个问题就是，同样的（看起来）一堆线，去偏移，有的向内，有的向外，偏移方向不一致，那这可怎么办？比如：
+![img](http://www.rhinostudio.cn/files/course/2020/04-23/1321299ca76b623259.png) 明明都是平面的线，怎么还偏移方向不一致呢？因为曲线是有方向的，顺时针为负，逆时针为正，这时候你结合曲线方向再看你就知道了：
+![img](http://www.rhinostudio.cn/files/course/2020/04-23/13221130d2db676763.png)
+这时候，统一一下曲线方向就ok了：
+![img](http://www.rhinostudio.cn/files/course/2020/04-23/132325dab0ef482175.png)
+但是呢，又会有同学遇到另一种情况，那就是明明曲线都是一个方向的，咋偏移的还乱七八糟的：
+![img](http://www.rhinostudio.cn/files/course/2020/04-23/132635bbd595460905.png)
+这是因为，曲线的逆时针还是顺时针，是根据工作平面来定的，工作平面不同，曲线可以被认定为不同的方向。所以这时候，最好上面的线，都是基于xy工作平面去判断曲线的顺还是逆时针，那由于曲线是空间曲线，不断旋转变化，结果就会不一样，就会出现这样乱七八糟的情况。解决办法也很简单，就是指定一下判断曲线方向用的工作平面：
+![img](http://www.rhinostudio.cn/files/course/2020/04-23/132839787614679401.png)
+搞定收工，另外，如果你出现平面曲线偏移却出现错误的情况，那你需要给offsetcrv指定一下偏移平面才行：
+![img](https://img.kancloud.cn/97/c2/97c2f8e443a6e1c8f6c767ed0f685020_2210x1090.png)
+![img](https://img.kancloud.cn/e2/2d/e22d9cd15eac98e2152d9e9633728c0c_2210x1090.png)
+除此之外，还有可能在偏移有比较多凹凸变化的多重曲线的时候出现自交的错误：
+![img](https://img.kancloud.cn/36/86/3686b3a24ed0ac283da237d2a0440ea2_1727x462.gif)
+这时候首先尝试一下翻转曲线方向试一试：
+![img](https://img.kancloud.cn/f5/71/f571009662d459362c3fd05a0c654732_1727x429.gif)
+如果依然不行，则可以考虑打断延伸，然后求交点成面后求曲面 边缘的方式来获取偏移曲线 ：
+![img](https://img.kancloud.cn/93/15/931565d35c80e6203872715a0f96b145_1727x582.gif)
+总之 思路要打开 ，不要局限于 运算器本身，毕竟这运算器也是人写的，不可能解决 所有情况。
+
+### Offset Curve Loose
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/2013200d8dd6566893.png)
+
+这个运算器就是保持控制点一致的偏移，可以很明显看到，虽然控制点保持一致了，但是线之间的间距很明显不等。
+
+### Offset on Srf
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/2016502a7500507501.png)
+
+偏移曲面上的曲线。和rhino当中不同的是，gh里并不会自动帮你延伸
+
+这是rhino里的，可以看到偏移后的曲线自动延伸到曲面边缘：
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-15/15541687d389454845.gif)
+
+这是GH里的：
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-15/155544035e6a395419.png)
+
+不但不延伸到曲面边缘，还因为超出曲面范围的距离给你报错
+
+那咋办？目前没看到哪个插件可以解决的，我个人习惯自己用循环运算器来做：
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-15/16080779f72f173645.gif)
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-15/16084199a184635903.png)
+
+逻辑也很简单，就是曲线沿着曲面法线方向挤出之后再偏移去相交。
+
+### Project
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/201950697e36761648.png)
+
+在曲面上根据指定的法线方向投影曲线，在rhino中的手工投影命令是按照当前视图的工作平面z轴方向来投影的。
+
+### Pull Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/20212553cc5d582024.png)
+
+将曲线拉回曲面，这里根据的是曲面的法线方向，所以投影前后的对应位置形成的方向，就是那个点所在曲面的法线方向。
+
+### Seam
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/202607f633d5880200.png)
+
+调整曲线接缝到原曲线t值对应位置。啥，你说调整接缝有什么用？在rhino当中接缝位置，其实就是起始位置，曲线和曲面都有接缝位置，对于曲线来说，接缝位置就是起点位置，不过对于封闭曲线来说，如果不特意标识一下，是看不出来接缝位置的。
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/1810455af1fa580194.png)
+
+不过曲面就不一样了，你把曲线挤出之后，封闭的曲面，就可以直接看到接缝位置了。所以Rhino和GH当中接缝位置的调整，就是在调这里。
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/18115062647f494973.png)
+
+那这个接缝位置到底有什么用呢？以gh当中为例，我想对两个线进行loft，但是由于两个线的接缝位置，也就是曲线起点位置不对应，所以loft出来的面就扭曲了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/1815186113a4843650.png)
+
+这个时候我们就要对齐曲线接缝，才能loft得到正确的结果。
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/181811312429163407.png)
+
+同理，手工进行loft的时候，也会出现让你调整接缝的选项，也是这个意思。不对齐接缝，很多时候loft会出错。即便你的线没有问题。
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/181847740e2f928201.png)
+
+至于封闭曲面的接缝位置，正常来说接缝在哪里完全不影响显示和渲染效果。但是如果你要进行流动曲面的话，接缝绘制会决定你图形的起始位置。如下图，就是接缝位置不同，曲面流动结果的不同。
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/1821520a6949694395.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/08-17/182210264ec8021207.png)
+
+### Curve To Polyline
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-19/20341468059e216188.png)
+
+将曲线转化成多重直线，通过多个变量控制生成的多重直线的段数，如果什么都不输入则直接根据原曲线节点连接成多重直线。
+
+### Fit Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/10544552c141808451.png)
+
+即以公差重新逼近曲线，和Rhino手工当中的命令一个效果，都是用来简化曲线控制点的，毕竟，误差范围可以接受就行。如上图，新生成的控制点大大减少，但是与原曲线的误差只有0.05m。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/105001972722266279.png)
+
+### Polyline Collapse
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/105836cb4b4d464533.png)
+
+将多重曲线中长度小于Tolerance指定值的那一段线去除,剩余的其他线段继续连接在一起，可以用来消除曲线当中过短的线段，这种cad里经常有。
+
+### Rebuild Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/110035302a5a547881.png)
+
+重建曲线，和手工当中的rebuild一毛一样。还是一样的注意事项，重建必变形，如果指望简化曲线，还是用fit curve吧，除非是必须重建曲线结构才用。
+
+### Reduce
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/1104011ecb25947297.png)
 
 
 
+以公差减去多重曲线当中靠的近的控制点，对其进行一定程度简化。
 
+### Simplify Curve
 
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/1112088a4dc9167878.png)
 
+对直线或圆弧进行简化，消除多余控制点。
 
+### Smooth Polyline
 
+![img](http://www.rhinostudio.cn/files/course/2019/05-26/1139153e1536744014.png)
 
+将多重曲线撸顺了......简单说就是降低或者增大原多重曲线的抖动趋势,S端值越大,浮动趋势越大,越小,趋势越小,原曲线越接近一条平直的曲线,而T撸直的迭代次数,次数越多,效果越明显
 
+# Surface
 
+## Analysis
 
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/1207517e5471434783.png)
 
+### Box Corners
 
+![img](https://img.kancloud.cn/1d/1c/1d1c7862bbf19f31758068de298a9449_1213x494.png)
 
+提取一个BOX的所有顶点。
 
+### Box Properties
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/1153211ac4a3300217.png)
 
+返回一个BOX的各种属性值，除了Degeneracy输出端，其他的都很好理解。
 
+### Deconstruct Box
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/115244ca0dc9180719.png)
 
+拆解获得BOX的工作平面以及其XYZ三边长度区间。
 
+### Evaluate Box
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/115159feee17151076.png)
 
+这个运算器其实就是把box的xyz轴当做一个三维坐标系来定位box甚至box之外的点，只不过这里使用的是比例而不是实际长度。如上uvw可以类比xyz，都是0.5也就是取三轴中点的交点。
 
+### Brep Edges
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/1151153269ae084315.png)
 
+抽离多重曲面或曲面的边缘，裸露边缘和内部边缘都很好理解，非流行边缘估计很多人都不知道，被三个或以上网格面或曲面共用的边缘称为非流形边缘，这样的边缘是不合理的，出现即意味着brep有错误。不过就建筑的建模复杂度来说，如果你建模建出了非流形边缘，那你真的得检讨下自己的建模习惯了。
 
+### Brep Topology
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/11502733cfa1837827.png)
 
+显示一个多重曲面的拓扑关系，比如Face|Face Adjacency输出端，就是返回每个面周围的所有面的序号，Face|Edge Adjacency就是包围每个面的周边所有边缘的序号，Edge|Face Adjacency即包围每个边的面的序号，一个边最多和两个面相接，所以这里每组有两个值。意思是这么个意思，但是我完全不知道有什么用，可以用来干嘛，估计是我太菜了。
 
+### Brep Wireframe
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/11500804382c886781.png)
 
+感谢网友“J.Z”的提醒，抽离结构线，功能同Rhino属性面板中的设置结构线密度一样：
 
+![img](http://www.rhinostudio.cn/files/course/2019/05-31/2045393cec4b286558.png)
+需要注意的是，数值为0时，只显示节点位置的结构线，而最简曲面（点数比阶数大一）是没有节点的，所以最简曲面和非最简曲面比，结果是不一样的：
+![img](https://img.kancloud.cn/b1/4f/b14ff6df14cbeddfe3628ed3fb9efcdf_1003x764.png)
+-1的时候获取的都是外边框：
+![img](https://img.kancloud.cn/13/99/1399784747d3c87415844fe733222406_1444x447.png)
+数值为0的时候，由于最简曲面没有节点，所以左边的曲面没有多余结构线：
+![img](https://img.kancloud.cn/06/2b/062b97f1583d6cf972622aebdc914a1c_1424x484.png)
+![img](https://img.kancloud.cn/78/69/786925352d9c7831265cd6bd0de68015_1399x372.png)
+![img](https://img.kancloud.cn/3d/5c/3d5c9ca832962e7989fdb6144132ad2c_1405x405.png)
 
+这一特性也会影响到多重曲面，获取的结构线也会根据组成多重曲面的面是不是最简曲面而发生改变：
+![img](https://img.kancloud.cn/cf/07/cf07b508141eb1bd3e0c4ae54ec27a86_1533x506.png)
 
+### Deconstruct Brep
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/114426a07c20137097.png)
+
+拆解多重曲面为点线面三元素，你就当explde吧，很常用的运算器。
+
+### Dimensions
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/11492009ae01579701.png)
+
+返回曲面UV长度，根据uv画个矩形那就等于是rhino手工命令CreateUV，等于CreateUV，那咱就可以拿来和曲面流动一起配合。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/114817191413218173.png)
+
+### Is Planar
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-31/210814e726e1569263.png)
+
+判断一个曲面是不是平面曲面，返回布尔值以及这个曲面的中心平面。I端按说是限制测试仅限于修剪曲面内部，意思就是指，如果一个修剪后的曲面，剩余部分为平面，则无论原曲面是否为平面曲面，都判定为平面曲面。比如下面这个面，原曲面肯定不是平面，但是修建后就是了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-31/211006e68682259299.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-31/211034a6d858276222.png)
+
+### Surface Points
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/1142499cc7b9346752.png)
+
+提取曲面点及其各项数据。其中Greville输出端其实就是把曲面控制点在曲面上的uv坐标改成对应xy坐标的点，所以如果对曲面Reparameterize的话，那这些点都会在1*1范围内。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/1143059b236b543317.png)
+
+### Area
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/1141597c9d5b402219.png)
+
+求曲面或网格或封闭平面线的中心点和面积。不过需要注意的是，由于要计算面积Area，涉及到逼近算法，所以计算量比较大，会比较费时间，所以如果只是求中心点的话，尽量不要使用Area，而使用Polygon Center等来计算，下面做个简单的对比你就知道了，注意运算器下方的时间。Polygon Center甚至都没弹出来。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-02/113822e52bce216864.png)
+
+### Area Moments
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-05/20562265e96c895930.png)
+
+Area运算器的升级版本·····那么多的输出端估计要和力学插件结合才能用到，我是目前完全没用过。
+
+### Volume
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-05/210117d2dcf9495932.png)
+
+求物体体积和几何中心的运算器
+
+### Brep Closest Point
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/09555284a68b330898.png)
+
+求指定点到brep的最近点以及投影点到点的矢量方向和距离。
+
+### Surface Closest Point & Evaluate Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/102254e86c7d866634.png)
+
+#### **Surface Closest Point**
+
+求点到曲面投影点，返回投影点【Point】以及点在曲面上的uv坐标值【UV point】，uv坐标值以点的形式呈现，以及点到曲面距离【Distance】，经常配合Evaluate Surface运算器求
+
+#### **Evaluate Surface**
+
+返回曲面上【surface】对应uv坐标值【point】点处的各项数据，注意这里【point】端为UV坐标，只不过以点的形式呈现，毕竟uv坐标值嘛，和点xyz坐标形式一样。返回的值有UV坐标值对应曲面的点【Point】，UV坐标值处的曲面法线方向【Normal】，UV矢量方向【U direction】和【V direction】，还有UV坐标值处的曲面切平面【Frame】。
+
+### Point In Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/1053211965b2962934.png)
+
+判断点是否在Brep内部，返回布尔值，结合dispatch可以将点根据内外区分开来。Strict端控制是否严格筛选，如果为True，位于曲面上的点讲不算入内部。
+
+### Point In Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/1053211965b2962934.png)
+
+判断点是否在Brep内部，返回布尔值，结合dispatch可以将点根据内外区分开来。Strict端控制是否严格筛选，如果为True，位于曲面上的点讲不算入内部。可以利用index输出端来筛选出内部不含点的物体：
+![img](https://img.kancloud.cn/d5/77/d5778644bbec023eaeeebed4cb4f661b_1810x763.png)
+
+### Point In Trim
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/111243bdf413229497.png)
+
+判断UV点是否在修剪曲面内。这个吧，其实也很好理解，你想啊，咱们一直说曲面uv，每一个曲面都有一个自己的uv坐标系，而当我们对曲面进行reparematerize重新参数化之后，uv坐标值会被重置到0-1之间，这个对应到空间坐标就是一个1*1的小矩形，矩形内的点就对应曲面上的uv坐标，根据修剪范围来筛选点。不过目前为止我还没用到过这个运算器。
+
+### Shape In Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/112415f7340c050505.png)
+
+判断一个物体【Brep】是否在另一个物体【Shape】的内部内，返回0则在内部，返回1则有是有相交部分，返回2则在物体外部，需要确保物体是包含关系的，如上图对调一下输入端的话，输出的也会是2，因为小球无法包含大物体。
+
+### Osculating Circles
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/1127186b5adb364494.png)
+
+类似于曲线组里的Curvature运算器的曲面升级版本，根据对应曲面对应vu位置的曲率绘制密切圆，是一个显示曲面曲率变化的手段。
+
+### Principal Curvature
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/11310042b397121822.png)
+
+求曲面对应uv坐标点处的最大最小曲率大小以及最大最小曲率的矢量方向。
+
+### Surface Curvature
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/1135164c59d0841077.png)
+
+求曲面对应uv坐标点位置的曲率。我们可以很容易的利用这个运算器对曲面进行曲率可视化。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/1139357d6b92713894.png)
+
+利用Rhino当中的曲率分析工具CurvatureAnalysis一对比，大差不离~
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/114028ce9305590500.png)
+
+犀流堂还有一节利用曲率干扰曲面开洞大小的课，可以作为参考学习一下：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/114119f711cb628773.png)
+
+[曲率干扰曲面开洞](http://www.rhinostudio.cn/course/971)
+
+### Volume Moments
+
+![img](https://img.kancloud.cn/53/8c/538cce60f46089cbdd8347a5fbce10c1_1730x734.png)
+
+老实说，除了求体积和质心之外，我不知道这个惯性矩到底可以干啥·····
+![img](https://img.kancloud.cn/98/b4/98b446c6cb39da0b6ce045eec0b7614b_921x305.png)
+
+## Freeform
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/120815fe4629447600.png)
+
+这一组的命令都是成面相关的，对应Rhino当中loft，双规，单轨等命令，不过相比较其他运算器，成面，成体，布尔，相交等运算器运算量较大，甚至极大，可能几百个运算器运算时间抵不上一个相交运算器，所以不到最后不要去成面，去相交，布尔等。
+
+### **4Point Surface**
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/123450ac2b5d036108.png)
+
+四点成面，和rhino里的命令相对应，GH中需要尤其注意的就是四个点的顺序，否则出来的点很可能是扭转的面。
 
 
 

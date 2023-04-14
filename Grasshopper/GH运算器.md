@@ -4259,45 +4259,655 @@ Area运算器的升级版本·····那么多的输出端估计要和力学插
 
 四点成面，和rhino里的命令相对应，GH中需要尤其注意的就是四个点的顺序，否则出来的点很可能是扭转的面。
 
+### Surface From Points
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-08/123835b5f24d828672.png)
 
+根据给定的点集生成曲面,这个运算器对点顺序要求比较高,不是随便扔一堆点进来就可以的,要有一定的规律,符合uv方向排布,而之所以只用输入U count,是因为运算器会自动根据总数求出V方向的个数。
 
+### Boundary Surfaces
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/155316c6ff54659074.png)
 
+根据平面曲线生成曲面，等于Rhino种的PlanarSrf，并且可以识别多个曲线的合集，可以很方便的判断你的对象是不是平面曲线。不过需要注意的是，它会自动判断曲线之间包含关系，从而自动开洞。这自然大部分时候是我们需要的。但正因为这个自动判断，会花费很多时间。所以你会发现，下图种，我们给曲线graft之后，节省了百分之三十的时间，因为graft之后每个运算器都在一个组内，就没有判断包含关系以及是否在同一个平面内这一步了。
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/155823f8c1a4686064.png)
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/155836c7c661982002.png)
 
+### Control Point Loft
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/160930a30fdd016920.png)
 
+根据曲线控制点放样生成曲面。【Degree】阶数不得大于等于曲线数量。你可以对不一下放样曲线和所成曲面的控制点。
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/161235385a1f304173.png)
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/161250298cd5519906.png)
 
+### Edge Surface
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/162425938f2b092870.png)
 
+根据四条边生成曲面。等同于Rhino当中的EdgeSrf。
 
+这里多说一句，Rhino当中成面命令很多，什么边缘成面，放样，单轨，双规，嵌面，网线成面等，不同命令什么区别，不同命令什么情况下使用，有什么注意事项，建议看一下犀流堂里对应的命令讲解内容,咱们花了五节课才说清楚，这里就不赘述了。
 
+你只要知道GH种成面命令和Rhino种的基本差不多，只会更严格，就好。
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/16294268d1bb717191.png)
 
+### Fit Loft
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/16331175e7a8796207.png)
 
+虽然名字是fit，逼近，但是我觉得应该是rebuild，重建曲线然后放样。【CountU】就是重建之后的点数。成面相当于默认loft种默认选中松弛，所以面并没有经过线。
 
+### Loft & Loft Options
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/164322aea556896376.png)
 
+放样以及放样的选项设置,GH中的loft比Rhino手工中的loft要严格的多,对曲线顺序,以及曲线方向都很严格,rhino手工可以放样的,这个不一定可以,而且目前gh的loft是不可以点和线进行放样的,.至于T的放样类型可以参照rhino命令中的选项,0=普通放样;1=松弛,2=紧绷,3=平直区段,4=可展开的,5=均匀。
 
+Tyep放样类型-0-Normal
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/16493827ecd4152530.png)
 
+Tyep放样类型-1-Loose：将在曲面原始的控制点位置创建曲面控制点
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/165017955e31927628.png)
 
+Tyep放样类型-2-Tight：曲面紧贴原本的输入曲线
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/165055f7afb3428191.png)
 
+Tyep放样类型-3-Stright：创建一个规则曲面，曲线之间的部分是平直的。
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/1651186f2c0d356608.png)
 
+Tyep放样类型-5-Uniform：使物件节点向量均匀化
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/165215f9eb5b185647.png)
 
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/1656331df877968931.png)
 
-###### 未完
+需要注意的是，和Rhino的loft不同的是，GH里的loft不允许线和点的放样，这就很尴尬，有的造型就不好做，那这时候怎么办呢？
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-02/232233935097801077.png)
+
+骗他！
+
+![img](http://www.rhinostudio.cn/files/course/2020/04-02/232327f9f869914296.png)
+
+### Network Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/170426a47dcf136840.png)
+
+以网线建立曲面。Contimuity端本身是控制曲面连续性的，手工命令当中使用网线建立曲面的时候如果选择曲面边缘为成面曲线线，就可以激活,从而控制生成曲面和旁边曲面的连续性。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/171700c856e9636902.png)
+
+但是gh里选中了没啥用，可能目前还没这功能：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/171836c1b737844838.png)
+
+### Ruled Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/1725371ad385894984.png)
+
+通过两条曲线创建一个曲面，emm，你就当loft的阉割版吧。
+
+### Sum Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-09/1727357b8fb1400430.png)
+
+根据两个曲线扫掠形成曲面，属于单轨放样的阉割版。
+
+### Extrude
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-10/1103153b2460307453.png)
+
+挤出线或者曲面，Direction端指定挤出的矢量。
+
+### Extrude Along
+
+![img](https://img.kancloud.cn/21/86/21863ce79e664e6c7ed073c764b7db3d_792x290.png)
+
+将曲线或者曲面沿着曲线挤出。有的同学可能有疑问，这个东西直接单轨扫掠不就行了么，为什么还单独做一个Extrude Along？其实你试一试马上就知道了：
+
+![img](http://sce5a0b6c0d3wf-sb-qn.qiqiuyun.net/files/course/2019/06-10/11195396680d630615.png)
+
+用双规扫掠做才能比较像样。
+
+![img](http://sce5a0b6c0d3wf-sb-qn.qiqiuyun.net/files/course/2019/06-10/1120215d5736511872.png)
+
+但是曲面结构和用沿着曲线挤出命令比起来差太多了。
+
+![img](http://sce5a0b6c0d3wf-sb-qn.qiqiuyun.net/files/course/2019/06-10/11210956236c213621.png)
+
+### Extrude Linear
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-10/112515bc0bf9465514.png)
+
+将轮廓或者曲面沿着直线方向挤出，【Orientation (P)】和【Orientation (A）】要保持一致，不然会挤出奇奇怪怪的东西。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/09582622a27a035926.png)
+
+### Extrude Point
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10043538385c352092.png)
+
+挤出曲线或者曲面到点，从而生成椎体。咱们前面说过，GH当中的loft是不能对线和点放样的，Rhino可以，所以在GH当中想通过线和点生成椎体，只能靠这个运算器。
+
+### Fragment Patch
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10083972abd9117658.png)
+
+Fragment，碎片的意思，碎片化patch补面，将多段线互相连接修补成多重曲面的运算器，他会按照一定的规则将你的多重曲线生面。而如果不能生成四边面的话会自动用三角面进行分割，毕竟三点一定共面嘛。必须是多边形，不然会报错：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10101468e452724137.png)
+
+### Patch
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/101213d9352f846353.png)
+
+嵌面，同Rhino中的嵌面一样,基本上只要给他个线就能给你生个面,但是由于是逼近算法，是不断拖动曲面控制点去贴合目标曲线和点以满足误差，所以不到万不得已我们一般不用这个命令,除非这个面真没法子生成了,或者对后期建造无所谓之类的不重要的面，或者即便精度很低我们也可以接受的面，比如一些景观地形呀，我之前在Plasma的时候，天天看老外用patch做景观，毕竟实际建造都是土堆，给个意思就行，最后出土都是看平面图控制线和高度标注，模型不准无所谓。关键是，你得知道这个命令是不准的，不能随便用的，要根据自己误差精度要求来选择合适的命令。建议看一下这节课，补一下:
+
+[建筑当中非四边面造型的几种处理办法](http://www.rhinostudio.cn/course/1485)
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10153687b7f9298163.png)
+
+### Pipe
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/101739384abe723261.png)
+
+成管呗，没啥特殊，唯一要注意的就是直接nurbs成管会很卡，数量多会卡爆，所以我们gh预览一般都是mesh pipe，这是个插件，叫mesh tool。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/102234a8d9d8676938.png)
+
+这个插件大家可以到《[常用Gh插件资源汇总](http://www.rhinostudio.cn/course/706)》下载。
+
+### Pipe Variable
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/104020484f86582457.png)
+
+变截面成管，在曲线指定t值位置处设置指定半径成管。
+
+### Sweep1
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10440445e9b1122097.png)
+
+单轨放样，和rhino里的单轨放样基本一样，只不过更严格，会有手工可以做但是这个运算器却做不了的情况。我现在使用的版本中M端输入什么都木有改变，所以只能利用align plane的运算器对平面进行纠正，从而得到不自由扭转的成管。**而gh做方管，也是gh小白最喜欢问的问题之一。**
+
+**关于GH中单轨的问题，举个竹里建模当中一位同学提的问题，他的瓦部分，线也ok，断面线也ok，就是有一部分无法单轨，完全不知道为什么，报错信息也啥都没有，就写着could not creat sweep：**
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-29/2157139995bf635751.png)
+
+其实原因很简单，GH里单轨对数据要求很高，以他的为例，失败的，都是因为断面线不在曲线的起点，而是在终点也就是说断面线所在位置，必须在扫掠线起点，所以我们只要统一一下曲线方向，让曲线起点和断面线都在一个位置就可以了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-29/215802b0079e476449.png)
+
+除了断面线必须位于轨迹线起点之外，Sweep1运算器，如果处理多个对象的话，一定要分好数据结构，它的处理可不是一一对应的，毕竟单轨扫掠断面线可以有无数个，比如：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-29/220044c53ebb105082.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-29/220308ca7389001625.png)
+
+如上图，所以，千万别把gh的运算器和rhino的命令看成一样的，GH要严格的多。
+另外需要注意的是封闭曲线的单轨也很严格，有同学会发现sweep1单轨想做个封闭方管都失败，不论断面线放在哪里：
+![img](https://img.kancloud.cn/d9/dc/d9dcee6fec2b6ea986e2e2d6f5531d9f_1732x846.png)
+![img](https://img.kancloud.cn/c5/b2/c5b2b1aea7a2ac7b22c59c316cafe020_1584x765.png)
+其实原因很简单，封闭轨迹线单轨的时候需要满足两个条件，第一，断面线在曲线起点，第二，轨迹线必须和断面线相交：
+![img](https://img.kancloud.cn/6e/71/6e719a28f7c3a61726c26288ffcce511_1584x765.png)
+
+### Sweep2——双轨
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/1047131a8af8294654.png)
+
+相比较rhino中的双轨放样，对轨迹方向，断面线顺序要求更严格，但是使用方法还是基本一致的。需要注意的是，两根轨迹线方向要一致，断面线顺序也要和曲线方向一致，总之比rhino手工要求严格的多，不是随随便便扔过来一堆线，rhino手工可以作，gh就也可以做的。
+
+另外，由于在gh当中单轨扫掠和手工不一样，要求更严格，会出现rhino手工可以作，gh却失败的情况这种时候首先检查曲线方向，以及断面线是否在原点位置，如果依然不行，那可以考虑使用双轨扫掠：
+
+GH当中的各个成面命令都要比手工当中的严格，所以一开始的时候一定要注意好顺序问题，比如单轨扫掠，断面线一定要按照顺序排列，并且断面线的顺序要和曲线顺序方向一致，这样一般就可以了。但是sweep2有个bug，就是明明是多重曲线生成的应该是多重曲面，却生成的是未修剪曲面，导致无法炸开，提取局部面。
+![img](https://img.kancloud.cn/f2/d3/f2d33c1fc9911924c6e0da54cb3e6136_1730x594.png)
+不过好在也不是不能处理，提取结构线然后分割一下就好了。
+![img](https://img.kancloud.cn/bf/ef/bfef3f3a9ac860f186c02899e7a2d6e3_1803x668.png)
+
+### Rail Revolution
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/10511532cbc6117427.png)
+
+根据轨迹旋转放样，可以用来做一些特定形体，emm反正我没怎么用过。
+
+### Revolution
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/105402a9a635452526.png)
+
+旋转放样,可以控制旋转成的曲面的角度范围。
+
+## Primitive
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/12085792e768708992.png)
+
+这一组里的运算器都比较简单，都是关于创建基本物体的。
+
+### Plane Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/15580916d9d2440851.png)
+
+在指定平面上按照指定大小（区间）生成矩形平面。
+
+### Plane Through Shape
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/1640386a67ec977434.gif)
+
+在指定平面绘制一个包裹住指定物体【Shape】的矩形面。可以右键控制是以物体整体为准还是以平面和物体交线为准。
+
+### Bounding Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/1711506dd515494013.gif)
+
+生成一个能包裹目标物体的最小box。第二个box输出端比较奇怪，是按照旋转后物体来进行包裹box。需要注意的是，可以右键选择Union Box来生成包裹所有物体的box。
+
+### Box 2Pt
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-20/1714102b212f673142.png)
+
+根据对角两点绘制BOX。
+
+### Box Rectangle
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/124810a386f8666704.png)
+
+根据一个矩形和高度来挤出得到一个box。
+
+### Center Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/124930a1df34224122.png)
+
+以指定平面原点为中心，绘制box，需要注意的是，xyz输入端输入的值为边长一半。
+
+### Domain Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/12513572508a503761.png)
+
+以区间作为边长绘制box。
+
+### Cone
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/1253437a2858612488.png)
+
+绘制圆锥。
+
+### Cylinder
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/125533588f52390040.png)
+
+绘制圆柱，下面请根据图猜一个动漫知名人物：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/125612c0dc17468607.png)
+
+### Quad Sphere
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/1302146dd452813486.gif)
+
+绘制六面拓扑球体，由六个四边面拟合的球体，并不是真正意义上的球，只是接近，用来做一些特殊表皮，比如：
+
+![](file:///K:/%E7%8A%80%E6%B5%81%E5%B0%8F~1/%E7%AC%AC%E5%8D%81%E4%B8%89%E6%9C%9F/%E5%AE%A3%E4%BC%A0/%E8%A7%86%E9%A2%91/%E8%A7%86%E9%A2%91%E7%94%A8~1/%E6%8B%93%E6%89%91%E7%90%83%E4%BD%93.jpg)![img](http://www.rhinostudio.cn/files/course/2019/06-21/130341d65422226308.png)
+
+### Sphere
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/130410a80977305993.png)
+
+绘制标准球体
+
+### Sphere 4Pt
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/130531b79a43647988.png)
+
+绘制一个通过指定四个点的球体，三点可定圆，四点可定球嘛。
+
+### Sphere Fit
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/130741d18520153410.png)
+
+绘制一个球体逼近给定的点击
+
+## Util
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-04/12092996d7a2030730.png)
+
+### Divide Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/164102ee75c8075014.png)
+
+基于曲面UV获得细分点。还可以获得点在曲面的法线方向。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-21/164205dc840a863595.png)
+
+不过有的萌新会在使用这个运算器的时候遇到下面这个问题，就是靠近边缘处没有控制点:
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-24/210058a204e3056231.png)
+
+这个主要是因为这个生成的曲面是修剪过后的曲面，咱们Untrim取消修剪之后就可以看到，原曲面实际上要更大一些，所以这时候我们就要对原曲面进行处理，处理成未修剪曲面，如果曲面是以曲面结构线分割的话，那我们可以直接使用缩回曲面，对应Rhino当中命令为ShrinkTrimmedSrf，但是问题来了，如果，我们想在GH中缩回曲面怎么办？GH当中并没有现成的运算器用于缩回曲面，除非使用插件，或者，自己写几行很简单的代码：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-24/2117073c790c577617.png)
+
+如果不是根据曲面结构线修剪的，那你就得想办法重新构建曲面了。
+
+### Surface Frames
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-24/212341dd6e55729346.png)
+
+等分曲面得到点所在曲面切平面以及点的uv坐标。
+
+### Copy Trim
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/094619b41720815244.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/094426a4c1b8205695.png)
+
+复制曲面的修剪信息到另一个曲面上，其实吧，你就当是曲面流动好了，把一个修剪好的面流动到目标曲面上。只不过更加简洁。
+
+### Isotrim
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/09483209a286979499.png)
+
+咱们一直说，nurbs曲面就是一个空间二维坐标系，有uv两个轴，咱们这里就是对uv两个方向进行等分，得到uv区间，然后通过uv区间定义曲面上的区域，就结果来说，就是直接细分曲面了。只是很久之前学的时候，别人只只告诉我这么连就可以了，并么有说为什么，以后我才理解是什么意思。其实咱们对曲面重新参数化一下，把uv设置到0-1之间，大家可能会更好理解一点。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/0956513c0111100191.png)
+
+### Retrim
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/10264332f379108208.gif)
+
+说明整的很玄乎，什么根据一个曲面的三维修剪信息来修剪另一个面，其实就是把一个面修剪用线拉回到曲面上然后修剪，所以你必须把两个面上下放，才能相交，然后你上下移动就会发现洞的形状在变化，就是因为拉回曲面的操作和距离有关。暂时想不出来这玩意能干嘛。
+
+### Untrim
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/103211b39052343813.gif)
+
+取消修剪。
+
+### Brep Join
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/103610aa3b43814861.png)
+
+讲多个曲面或多重曲面组合成一个多重曲面，这里强调一下，Nurbs曲面能够被组合的条件，是物体边缘靠在一起，而这里就涉及到公差了，多近可以被判断为靠在一起？距离小于公差就可以被系统判定为靠在一起从而可以组合，所以如果你单位是m，公差为0.001，两个物体距离0.0005，绝对意义上没靠在一起，大那是仍然可以被判定为可以组合，只不过，这样的精度，建筑没啥问题，进工业设计，可能就会因为精度问题出错。话虽如此，公差设置的太小，就意味着精度太高，给系统带来无畏的系统资源浪费，尤其是我们建筑这种精度比较低的行业··没必要，具体的看咱们基础课吧。这里不赘述了。
+
+### Cap Holes
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/1047059118b2964876.png)
+
+加盖，只能加平面洞，你留个曲面异形的洞，是加不了。
+
+### Cap Holes Ex
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/10311425d46c110981.png)
+
+进阶版加盖，目标就是不惜一切手段给你封上，所以如果不是平面洞，也会给你用三角形封起来。不过前提是，需要封闭的洞口边缘都是直线，如果如下图这样的曲面，那就抓瞎了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/103327756004323440.png)
+
+### Merge Faces
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-25/10412881c948964165.png)
+
+消除共面，只能消除共面平面，曲面是不行的。
+
+### Flip
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/105853d85f33447723.gif)
+
+翻转曲面方向，每个曲面都有正反两个方向，而且这个面的正反和你绘制顺序有关，顺时针绘制，面为反，逆时针绘制，则为正，别问为什么，问就是规定。而面正反直接决定偏移方向等设置，所以保证曲面方向一致就很重要，早先版本的软件，如果面反了，渲染甚至直接会是黑色。Su的话，有专门的翻面插件，Rhino的话，基本上，大部分情况，只要组合一下就搞定了。会自动统一方向。单如果像上图中一样，互相分离的面该怎么办？我们只需要指定一个参考面就ok了，当然最本质的解决方式肯定还是在一开始成面的时候就保证面方向一致，而不是错了才开始想怎么办。
+
+### Offset Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/123701dbc67a470133.png)
+
+偏移曲面。很好理解，只不过很多新手会在这里遇到第一个坎，因为GH的便宜曲面没有实体选项，也就是说，没办法偏移成体，咋办?很简单，手动来封一个呗：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/124636cdee9f025412.png)
+
+但是，问题又来了，多重曲面怎么办？这个运算器压根不支持多重曲面，别说实体，不要实体都不让你偏移。这个时候你就要想了，GH都出来多少年了，肯定无数人问过这个问题，说明这个问题早就已经解决了，而之所以GH中不加入这个解决办法，或者说考虑加入偏移多重曲面的运算器，很明显，应该不是懒，只是单纯这个问题没有办法解决的完美。我们先来看个简单的例子，就比如一个平常的多重曲面要偏移成体，去外网随便一搜，就可以搜到，直接把人家代码复制过来就行，甚至都不需要代码知识，只需要知道怎么复制粘贴代码就行：
+
+![img](http://www.rhinostudio.cn/files/course/2019/05-05/1843197abe77187667.png)
+
+那么问题来了，这个看起来很简单啊，代码就几行啊，为啥不加入呢？你觉得你想到的，官方会没想到么？举个例子，假设你有下面这个类型的立面，你觉得能偏移么，偏移出来的结果会如何？
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/1256491a497f447624.png)
+
+这种造型现在国内做的很多的，我之前在建研院就遇到过：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/1259324c4bf2071902.png)
+
+你会发现这种三角形立面，因为法线问题，压根没办法偏移，势必会出现破面。势必就得人为手工一点点修。或者说留缝，把彼此分开，这就具体项目具体看待了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/1300077e54e6490640.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/1300248b0a38872247.png)
+那遇到这个问题怎么解决呢？既然要保证偏移距离相等就一定会出现这样的坡面，那就只能牺牲距离相等，优先保证交接处的效果了。以这个三角形的表皮为例，三角形不就是mesh的基本单元么，mesh的偏移就是典型的不管距离，只是单纯的移动网格顶点（所以我们为什么说网格不准咧），所以可以这么办：
+![img](https://img.kancloud.cn/ba/14/ba14baf407716547363e1859e757f08d_1762x673.gif)
+
+总之GH大部分好的资料都在国外，大部分你想过的问题，估计国外人也早就想过，官网里大概率会有解决方法，所以再次强调，学好英文，别老叨叨汉化。
+
+### Offset Surface Loose
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/163234235153429058.png)
+
+松弛偏移，前面咱们提到过，Rhino当中的偏移是逼近算法，简单说就是不断添加控制点，知道误差满足公差位置，所以如果你想偏移得到的曲线或者曲面准，那势必控制点很多，那如果希望偏移后的曲线或者曲面控制点保持一致，那就只能牺牲准确性。这就是Offset Surface Loose。对比一下二者的控制点数量，你就知道了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/1635357023eb452173.png)
+
+### Convex Edges
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/170650af2ff7812673.gif)
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/170710e95227688832.png)
+
+返回多重曲面当中的凹边和凸边序号，至于谁算凹谁算凸，主要看曲面方向。我们就可以根据它来筛选需要的边，这个运算器，包括后面的，都是6.0新增的运算器。专门用来选择特定边缘的。
+
+### Edges from Directions
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/171639765191079595.png)
+
+根据指定方向来筛选边缘，从而筛选出一个方向的边。
+
+### Edges from Linearity
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/174501d92dc9708419.png)
+
+根据边缘的直线性筛选边缘，各位就直接当筛选多重曲面当中的直线边缘的运算器来用就行。min和max默认0和1，一般设置成0和0.5就ok了。
+
+### Edges from Points
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/174901ddca3a034944.png)
+
+根据点来筛选点所在的边缘。【Valence】输入端好像是什么每条边最小原子价的意思，不是很懂，默认就好。反正用没啥问题。
+
+### Fillet Edge
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/17532225f9ee416312.png)
+
+根据指定边缘序号对多重曲面倒角。前面一堆边缘选择运算器，其实都是在为这个做铺垫。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/17541793ebd0852996.png)![img](http://www.rhinostudio.cn/files/course/2019/06-28/17550595d981457840.png)
+
+需要注意的是倒角样式和路径造型两个选项，其实Rhino手工扎实的人看了这个就应该知道是说的什么了，第一个【Blend】好理解，倒角样式选圆角还是斜角还是混接面，第二个【Metric】嘛：
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/175626adcc28629217.png)
+
+好好看看一下Rhino[官方帮助](https://docs.mcneel.com/rhino/6/help/zh-cn/index.htm#commands/filletedge.htm#(null))吧，所以说，虽然天天有人叨叨，可不可以不学Rhino就学GH，当然可以，没啥不可以的，甚至不学gh直接学代码都么问题（微笑脸），单扎扎实实从基础开始学起来，对后面的学习会有莫大的帮助。
+
+![img](http://www.rhinostudio.cn/files/course/2019/06-28/175817999fb4099179.png)
+
+### Edges from Faces
+
+![img](https://img.kancloud.cn/c0/fe/c0fe507a73ce9842dc6830dcfd9b3a48_1659x532.png)
+
+------
+
+根据位于Brep上的点，筛选出包含点的面的边缘，及其序号。
+
+### Edges from Length
+
+![img](https://img.kancloud.cn/70/c6/70c648ce5880bf46e7543278a413d2a8_1730x528.png)
+
+筛选出Brep当中指定范围长度的边缘曲线及其序号。
+
+## Subd
+
+![img](https://img.kancloud.cn/92/e3/92e38b4f1c0f8e67ddc0b91dcfa858c9_238x305.png)
+SubD细分建模相关运算器。
+
+### Mesh from SubD
+
+![img](https://img.kancloud.cn/67/8e/678ea270d7916d73a27ef397be453303_1410x478.gif)
+
+获取SubD细分物件的原始网格，可以通过Density设置网格细分级别。
+
+### SubD from Mesh
+
+![img](https://img.kancloud.cn/b6/12/b612ce224fe30da10b8ee8777e3dd67a_1519x534.gif)
+
+根据Mesh网格生成SubD物件。Creases端可以控制是否在网格边缘处添加锐边，这个网格边缘可以通过weld mesh焊接网格来设置，未焊接的就是网格边缘。
+![img](https://img.kancloud.cn/cd/2b/cd2b502a972665a154f16f308edd6ee3_1519x626.gif)
+Corners控制是否柔滑Mesh角点。
+![img](https://img.kancloud.cn/ed/92/ed92bfd2234ce808c59fc299a7000ed5_1519x626.gif)
+
+### MultiPipe
+
+![img](https://img.kancloud.cn/e3/c8/e3c8b64cbdf0de1ba52d6f8003b151fa_1813x783.png)
+
+创建一个细分多管相交物件。首先注意的是一定对曲线在交点处打断，
+![img](https://img.kancloud.cn/fa/23/fa23e28aaf19a718849342e1087d2ed4_1822x744.gif)
+交点处打断曲线，参考这个方法，或使用插件。
+![img](https://img.kancloud.cn/6e/36/6e366c4d34909b6a296fda36d068083f_1916x823.png)
+
+### SubD Control Polygon
+
+![img](https://img.kancloud.cn/bb/97/bb97b0c4a5d7e41845df2ad80195a44b_1508x550.png)
+
+获取SubD控制网格。
+
+### SubD Edges
+
+![img](https://img.kancloud.cn/0d/23/0d23c104e5c0f5a4fd6f8d18c344d5e2_1689x698.png)
+
+获取SubD边缘,可以通过tage的标签来筛选外边缘。
+![img](https://img.kancloud.cn/ac/28/ac2860ef53f69f7d68d40989ce977a81_1916x820.png)
+当然，或许你直接转Nurbs之后提取边缘会更快。
+![img](https://img.kancloud.cn/e9/8d/e98d7c990eb524b483895e6afe2d4c22_1360x462.png)
+
+### SubD Fuse
+
+![img](https://img.kancloud.cn/10/5c/105ce5432b39903f78564e0a00cf0cf5_1529x446.png)
+![img](https://img.kancloud.cn/4c/f4/4cf4c5cd950bee7907cbc70c2c5e53c2_1565x449.png)
+
+对两个SubD物件进行熔接，可以做类似于metaball的效果，但是比较尴尬的，只能处理两个物体之间的熔接，不能处理多个物件，所以如果要实现多个物体熔接等花点功夫，可以参考下面这节课：
+![img](https://img.kancloud.cn/51/14/5114535b5cc8884c7bf8af68737b648f_1334x465.png)
+[GH使用SubD组件快速制作三维融球](http://www.rhinostudio.cn/goods/show/2151?targetId=2205&preview=0)
+
+### SubD Edge Tags
+
+![img](https://img.kancloud.cn/5e/84/5e842cce905529f01c564a5141d7d6ab_1687x746.png)
+![img](https://img.kancloud.cn/ec/df/ecdf1bd10dfcd6b87c61aaa031ec8807_1678x731.png)
+
+设置SubD物件的边缘标签,只能设置一个标签，但是边缘ID可以有很多个。可以用这运算器，对特定边缘，添加锐边。
 
 # Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-02/193300c7c9f8880635.png)
+
+Mesh网格，虽然我们一直说Rhino是nurbs软件，曲面建模核心，造型精准，mesh不准，误差大，但是不可否认的是mesh在日常工作中依然起到很重要的作用，虽然工业设计用的不多，主要是CG行业再用，但是建筑由于其特殊性，mesh对我们也有很大的帮助，比如有限元分析，力学模拟登，都只能使用mesh，学到高阶基本上谁都回避不了mesh，尤其是在幕墙设计以及优化上，mesh在建筑领域有妙用。如果你对Mesh网格的基本知识一点了解都没有，那下面的运算器讲解你会看的云里雾里。好在官方新版的第三版教程里专门增加了Mesh章节，大家可以好好看一下，会有巨大帮助：
+
+[GH极速入门之速读官方第三版教程](http://www.rhinostudio.cn/course/999)
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/2209040dcfca803153.png)
+
+ps，关于网格详细的内容，大家可以看至神的帖子《Mesh is art》系列，这是个大坑，咱们这里就只讲解运算器用法就好：
+
+[Mesh is Art（1)](https://mp.weixin.qq.com/s/otCh9nKp_Vn_aJe0YDIHtQ)
+
+[Mesh is Art（2）](https://mp.weixin.qq.com/s/d6jvGN_r8hVyxe2h-1fAXA)
+
+[Mesh is Art（3）](https://mp.weixin.qq.com/s/e5ZTo_xXuOo2e2y9TTOX3A)
+
+[Mesh is Art（4）](https://mp.weixin.qq.com/s/yHLNhz45iMsO6JVCuPBYXg)
+
+[Mesh is Art（5）：Circle Packing Mesh优化及其应用](https://mp.weixin.qq.com/s/Aks2-aN1sy4V-H21gxvkfg)
+
+[Mesh is Art（6）：PQ Mesh与幕墙优化（上）](https://mp.weixin.qq.com/s/FL7jK8mIyEVDDAt4gUW6Jg)
+
+我还在犀流堂《百问》这节课里回答过同学类似的提问：
+Rhino不是Nurbs软件么，那GH中的Mesh运算器是不是对建筑没用呀？可以不学么？
+结论：不但不可以不学，Mesh还是GH中的高阶内容。
+
+首先确实，Rhino是Nurbs软件，su和max是mesh软件，而Nurbs和Mesh之间的区别，就是Rhino和Su之间的本质区别。这也是我们一直通过多方面去强调的，强调我们学习rhino就是因为Nurbs曲面建模核心，而不是因为rhino做异形强，虽然的确强。
+
+如果对这个还不是很了解的，可以去看一下这节课：
+
+http://www.rhinostudio.cn/course/14
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/004830e46169171297.png)
+
+然后，这个时候你告诉我，Mesh不但得学，还是GH的高阶内容？这是逗我么？
+
+没逗你，确实如此，为什么呢？这主要是建筑学的特性决定的。如果你是工业设计，那mesh对你没有太大用处，工业设计标准是nurbs，不用Mesh，精度不够，甚至用Alias的大佬会嫌弃Rhino精度不高。是的，Rhino嫌弃su，但是su也被别人嫌弃，哪里都有鄙视链。
+
+但是对于建筑模型来说，不论你模型做的多骚气，曲面多顺滑，最后为了建造，你都必须划分成一块一块的嵌板。比如，zaha的梅溪湖：
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/005406ee0791673876.jpg)
+
+比如凤凰国际传媒：
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/005927fb75ad575407.jpg)
+
+这也是为什么建筑学建模对于连续性啊，曲面顺滑啊这些工业设计的基本要求可以视而不见，因为，你再光滑，最后还是要分缝，分嵌板。你再顺滑，以建筑的尺度，你靠近了，只能看到嵌板单元，你离远了，那顺不顺化，基本看不出来。
+
+那么既然要划分单元，划分嵌板，我们当然希望嵌板单元尽可能的是直线，直线嵌板好加工嘛，如果是双曲面的，也不是不阔以，就看你能不能遇到这么壕的甲方了：
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/010309d2549c549839.jpg)
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/0103131eedc3549661.jpg)
+
+ok，双曲面的我们确实用不到mesh，肯定得基于nurbs，但是我们绝大多数时候的目标，肯定还是做成直线的嵌板，那这时候，emmm？最终得到的结果不就是一个一个单元，或三角或四边或复杂图形拼合的对象么，这TM不就是MESH么？
+
+是呀，MESH不就是用无数单元面去拟合对象么？这不就搭上了吗？比如咱们犀流堂的这节课：
+
+http://www.rhinostudio.cn/course/1246
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/010549d824c8825374.png)
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/01061354965b006740.jpg)
+
+这个案例就是基于MESH做的深化。基于TS捏的形体，结合WB做的深化，由于都是直线，三角形嵌板，和Nurbs比没有任何区别，反而显示上，速度上，有极大优势，那不用Mesh用Nurbs就成了自找麻烦。
+
+除此之外，动力学模拟，只能基于Mesh模型：
+
+http://www.rhinostudio.cn/course/838
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/0109128d1fda444261.png)
+
+优化后：共2728块嵌板，17种类型
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/01091395ca4a145808.png)
+
+优化前：共2728块嵌板，497种类型
+
+上面的例子就是用kangaroo对幕墙进行单元优化，其他能做的事儿也不少，而kangaroo这样的力学分析只能使用Mesh模型，还有有限元分析啊，粒子模拟啊等等，这些CG软件里的绝活，都是只认Mesh模型的，所以，咱们才说Mesh还是GH中的高阶内容。
+
+但即便如此，我们的Mesh模型也是在Nurbs基础上，或者我们人为有意识的控制下去操作的，所以才没有什么低端Mesh内容这种东西，因为手工当中Rhino的mesh基本就是个摆设，看看就好。真想手工操作，还是得去max，c4d这样的CG软件里，那才是如鱼得水。
+
+所以，如果你不打算做复杂模型，深入学习gh，那可以不学，如果想，那你肯定躲不过Mesh。
+
+而关于Mesh，如果想深入的学习，那就涉及到计算机图形学的领域了，这里推荐一位大佬的公众号**AlbertLiDesign：**
+
+**https://mp.weixin.qq.com/s/otCh9nKp_Vn_aJe0YDIHtQ**
+
+![img](http://www.rhinostudio.cn/files/course/2020/03-02/01143391d9dc031091.png)
+
+有兴趣的可以了解一下咯
 
 ## Analysis
 
@@ -4327,3 +4937,1817 @@ Area运算器的升级版本·····那么多的输出端估计要和力学插
 
 ![img](http://www.rhinostudio.cn/files/course/2019/07-24/222848013c31413111.png)
 
+### Mesh ConvertQuads & Mesh Explode
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/152412ceb7a0805237.png)
+
+#### **Mesh ConvertQuads**
+
+将网格中不是平面曲面的四边面拆分成三角面，毕竟，四边面的四个顶点是可能不共面的，这么做的话，就可以让网格全都是平面嵌板了，如果你不介意有四边形有三角形的话。o端如果面被拆分就输出1,否则输出0。
+
+#### **Mesh Explode**
+
+将网格拆分成其各自的面,比如本来一个网格包含96个面,拆分成94个只包含一个面的网格。这是个插件，meshedit中的运算器，请注意提前安装。
+
+## Mesh Triangulate
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/16220915f9c4970832.png)
+
+将网格中的所有四边面拆解成三角形面。可以选择是否以短边对角线分割四边网格。
+
+### Face Circles
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/154314271de2384565.png)
+
+生成三角形网格的外切圆。
+
+### Face Boundaries
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/15534590f7c9904592.png)
+
+提取网格面每个面的边框线，注意，提取的线是每个面的完整闭合的边缘线，如果炸开，是会有重复线的。
+
+### Mesh Inclusion
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/155753124316005157.png)
+
+判断点是否在网格的内部，并返回布尔值
+
+### Mesh Area
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/2222400c44bc610049.png)
+
+测量Mesh面积以及中心点,是我们很常用的一个运算器。需要注意的是，如果你把曲面而不是网格输入给它来求面积，也是可以求的，不过是先把你的面专成mesh再求，那就比然不准咧，毕竟mesh本身就是拟合对象，所以不准也没办法，精度要求不高无所谓，要是想准确计算普通曲面的面积，还是使用Area吧。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-24/222439757c45334174.png)
+
+### Mesh Closest Point & Mesh Eval
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/1602295daafd971225.png)
+
+#### **Mesh Closest Point **
+
+求点到网格的最近点,并返回这个点以及点在网格上投影的网格面的序号,以及最近点的网格参数
+
+#### **Mesh Eval**
+
+求点到网格的最近点,并返回这个点以及点在网格上投影的网格面的序号,以及最近点的网格参数。
+
+这俩运算器吧，眼尖的一眼就会想到下面这俩运算器，
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/160738a4ae52987638.png)
+
+### Mesh NakedEdge
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/1617597ce0e1773485.png)
+
+提取开放网格的暴露边缘线的首尾点的序号，然后结合Deconstruct Mesh 可以提取对应的点，连接成线就有外露边缘线了，不过很明显还是Mesh Edges更好用。
+
+### Mesh Volume
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/162245502d9c741935.png)
+
+计算网格体积以及中心的运算器，接普通的surface或者brep也没问题，就是会先转mesh再算，所有有误差，需要提前注意。
+
+### Mesh AddAttributes & Mesh ExtractAttributes
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/163214e253f5530337.png)
+
+#### **Mesh AddAttributes**
+
+给网格物体添加信息。放大可以任意插入删除输入端。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/16332338e776681703.png)
+
+#### **Mesh ExtractAttributes**
+
+抽取网格当中赋予的信息。抽取信息时候，输出端也要和信息数量一致，不然会报错，然而并没有看到像explode tree那样右键一键匹配的选项。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-25/1634080a9aff540356.png)
+
+## Primitive
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-02/19343069b5ae273466.png)
+
+### Construct Mesh & Mesh Quad
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/200102eb2f29951621.png)
+
+#### **Construct Mesh**
+
+根据网格点数Vertices,成面规则F，即点连接规律,以及颜色构建一个网格。
+
+#### **Mesh Quad**
+
+和Deconstruct Face 是相对的运算器，本质上是就是网格面根据点顺序的成面顺序，比如如果是Q{1;2;3;4}意思就是依次将1234号点连接成面。不过需要注意的是，这个点序和网格正反是有关系的，顺时针为负，逆时针为正。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/200529941d03081372.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/153804cb9bcb993259.gif)
+
+利用颜色端，可以非常容易的对网格进行着色，我们经常利用这一点来进行分析表现，这个比nurbs方便多了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/201949529562553600.png)
+
+### Mesh Colours
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/202620cdec71962155.png)
+
+通过制定颜色对网格进行着色，本质上，也是在对网格顶点进行着色。所以你完全可以：
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/2027462cb86d762740.png)
+
+### Mesh Spray
+
+## ![img](http://www.rhinostudio.cn/files/course/2019/07-28/203828474a50633455.png)
+
+网格喷枪，可以根据点与点之间颜色对mesh进行着色，简单粗暴。同时可以右键运算器设置喷枪颜色模式：
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/203940ccedb8624863.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/2040320c0805415398.png)
+
+Nearest
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/204100c2b9c0781485.png)
+
+Furthest
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/204124402256943765.png)
+
+Blend（Linear）
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/204149d61a8c293482.png)
+
+Blend（Square）
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-28/204206ed02ab065042.png)
+
+Blend（Root）
+
+### Mesh Triangle
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/153452c079a3759247.png)
+
+三角形网格构建点序。依然是顺时针为负，逆时针为正。
+![img](https://img.kancloud.cn/2a/ec/2aec6e3f23c8916331431efe54454f2d_1087x366.png)
+
+### Mesh Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/1540000647e3416197.png)
+
+根据指定BOX和XYZ方向网格面数绘制网格BOX。
+
+### Mesh Pipe
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/1554146a0e8f100278.png)
+
+插件Mesh tool里的运算器，可以快速根据曲线建立网格圆管，毕竟有的时候诸如栏杆这种不重要的构建没必要都拿nurbs去做，会卡飞的，这种重复大批量的事儿又不重要的模型物件，交给mesh最适合了，又能大大提高显示速度。需要注意的是，角度公差值越小，精度越高，网格数量也就越多。加盖样式有三种，不加盖，平头盖，圆头盖，一般就别选圆头了，会增加不少网格数量，增加系统资源。
+
+### Mesh Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/160447feb326160647.png)
+
+根据给定矩形和网格数量绘制网格平面。
+
+### Mesh Sphere
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/160739bda838020091.png)
+
+绘制球体网格。
+
+### Mesh Sphere Ex
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/1608568be899128334.png)
+
+绘制拓扑球体网格，这个球体并不是一个标准球，而是六个面拼合的拟合球体。用过TSpline的同学应该对这个很熟悉：
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/161047769cdb873334.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/16114514c5c8247836.png)
+
+让然如果你要手工做也很简单。找个box像球投影然后重新成面就行了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/161435bd36d5649022.gif)
+
+而这个运算器，就是生成这样的拟合网格球体。
+
+### Mesh Sweep
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/161943f3003c405436.png)
+
+有圆管网格，自然有人会问方管网格等怎么办，喏，这就是了，依然是meshtool插件里的运算器，可以直接扫略成网格体，很方便。
+
+## Triangulation
+
+![img](https://img.kancloud.cn/af/2a/af2aeca3ac6b56438d81cec1820d4c9c_487x540.png)
+
+### Convex Hull
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-29/19361824c287780676.png)
+
+求点集凸包，也就是轮廓找形，求指定空间点集，在指定投影平面PI上的凸状形状，通俗点说就是找出点集中最外围的点然后依次连线。
+
+### PlanktonFromPoints & DeconstructPlankton
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/2051004afd7c794253.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/21033132f224637348.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/2106306c9b9d872933.png)
+
+###### **PlanktonFromPoints**
+
+###### **DeconstructPlankton**
+
+这俩咱们放到一起说，关于Plankton的介绍，各位感性的，可以去google上搜一下，简单说，就是一种基于（ half-edge data structure）半边数据结构的多边形网格。正常的网格是通过记录网格点和网格面点序来表现的，大部分时候很方便，但是在网格简化等操作的时候就不是很方便了。而plankton之所以叫 half-edge data structure，就是因为它记录的是网格边缘的一半长，也就是边缘的一半。这已经算是计算机图形学的范畴了，老实说我也不知道怎么个用法，就搜到了上面一个例子，只知道重构网格的时候经常用到它。先挖个坑，等日后学深入了再来填。
+
+### Delaunay Edges
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/151035b6818d679459.png)
+
+自动根据指定平面PI生成三角形连线，将点与附近最近的点相连。如果没有指定平面的话会自动生成最适合的投影平面。
+
+### Delaunay Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/151430629052290537.png)
+
+Delaunay Edges的升级版，Delaunay Edges只是连线，Delaunay Mesh直接给你成面了。随随便便咱们就可以做个如下图的马赛克效果。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/151741532cca403496.png)
+
+也经常配合Kangaroo来构建三角形网格。比如[全平板化 BUGA 木装置 GH建模教学](http://www.rhinostudio.cn/course/1678)这节课的六边形就是基于三角形嵌板进行的对偶算法得到的。现有三角形网格，才有六边形网格。
+
+[这个脑瓜瓢有点意思~](https://mp.weixin.qq.com/s/dR8A-XHsm4V01hmcIINhnw)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/152035346722836908.png)
+
+### Substrate
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/152239fd8b3e258512.png)
+
+生成Jared Tarbell纹理,相比较Voronoi也是一个比较有意思的纹理。参数调的好的话会出很多很有意思的效果,说不定模拟模拟蜘蛛网或者冰裂纹都可以,当然,只是形似。下图就是基于这个算法做的，只是暂时没看到建筑商的应用，可能可以做个花窗？
+
+### Facet Dome
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1536237460ea844464.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1538477f1919573575.png)
+
+想生成一个纯平板的泰森多边形球体么？想成生一个泰森多边形平板组成的穹顶么~？就是它了！Facet Dome就是平面穹顶的意思。这个运算器会首先根据你给定的点集生成一个最逼近这些点的球体，保留box内部分，以此为基础生成平板泰森多变形面。虽然用的不多，但是看起来就很厉害的样子。
+
+### Voronoi
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1610444cbc58114618.png)
+
+根据点集生成Voronoi2D网格，早些年的时候还这个还是非常火爆的，但是现在已经烂大街了，就见的不多了。相关深入讲解欢迎查看Voronoi专题篇，这里就不赘述了。
+
+[Voronoi泰森多边形专题篇](http://www.rhinostudio.cn/course/628)
+
+对了，东京空域那个小住宅立面就是泰森多边形做的：
+
+[东京空域立面GH建模教程](http://www.rhinostudio.cn/course/1012)
+
+### Voronoi Cell
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/161923bacabe606259.png)
+
+根据P和N两组点来生成单一的Voronoi细胞网格，这个运算器的规则是根据输入端p生成Voronoi网格,根据N的点删除位于N上的Voronoi网格,差不多这么个意思。如果你对调一下Point和Neighbors，你会发现，前后是互补的。至于这玩意能用来干嘛····我也不知道。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/162145904dff001392.png)
+
+### Voronoi Groups
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/162415f32fd2254264.png)
+
+根据两组点集生成嵌套的泰森多边形，根据点集G1生成第一级别的Voronoi网格，再在其中根据G2生成嵌套的Voronoi网格。
+
+### OcTree
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/152618aabc79709191.png)
+
+根据点集生成八叉树结构,根据百度的描述,八叉树是一种用于描述三维空间的树状数据结构。八叉树用在3D空间中的场景管理，可以很快地知道物体在3D场景中的位置，或侦测与其它物体是否有碰撞以及是否在可视范围内。在gh中基本可以理解为对box进行不断地细分成小box一直到细分后的box可以包含一定数量的点,而这个包含点的所烧由G决定,比如当前G为1的时候就是对box一直进行八等份(一个box可以分成八个完全一样的小box),知道box中包含一个点,不包含点的box将直接被删除。
+
+### Proximity 2D
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/15275176da65620222.png)
+
+在指定搜索半径范围内，寻找输入点集p中每一个点在投影平面PI之后的每一个点附近最近G个点的合集，并将之分别成组。如上就是找出每一个点在xy平面投影后的点周边最近的四个点（如果范围内有的话则共五个），依次五个五个成组。
+
+### Proximity 3D
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/153315b4ece9297449.png)
+
+三维空间中在指定搜索半径内找寻点附近的最近点G个,并相互连线。
+
+### QuadTree
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1535280af5ef253751.png)
+
+四叉树结构，类比于八叉树，对包含所有点的大矩形进行不断的四四细分下去，知道每个矩形中能包含G数个点，不包含点的矩形将直接被删除，也是一种二维平面寻找物件位置的快捷方式。
+
+### MetaBall
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1538179bc38c552977.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1542080e588f556104.gif)
+
+根据点集P求位于投影平面PI上的经过X的点的曲线,曲线会根据Metaball的特有的类似融合的规律来生成
+
+### MetaBall(t)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1547120d6c0f884401.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/154918e8a985099687.gif)
+
+这个是根据输入T值来确定曲线的生成,需要注意的是t越小线越大,是反过来的,并且这里的曲线生成并不是等间距的,而是逐渐缩小的间距的,如果想做成类似等间距的线就得将t值进行处理
+
+### MetaBall(t) Custom
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1552077b15bd797418.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1554411b30cc328208.gif)
+
+控制性更高,以基点p,通过权重值c以及t值来控制曲线生成,各位自己给予数值修改下就能了解了,而这些线我们都可以翻转数据结构上移,形成这样的立体样子,看起来感觉也不错。不过经常会有rhino基础不好的小伙伴来问，为什么这个线不能loft成面呢，我想用这个思路做个设计，该咋办咧。loft肯定是不可能，的这辈子都不可能，别说loft，双规，单轨啥的都不行，你想呀，rhino四边面原则，每个面本质上就是个四边面，这些命令生成的都是四边面，ok，我给你一块可以随意拉伸变形的布，你能个我围成上面的形状么？不能，一个面肯定不行，要么就是分多个面去拟合，要么就是利用ts之类的网格细分建模方式来做这种造型。比如：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1604320dd407090716.png)
+
+啥？你一定要和gh生成的线一毛一样？那就只能硬做了呗。先把能封的封上
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1616342d4522118161.png)
+
+这种线就别指望loft或者啥命令一键生成了，还是四边面原则，不懂的看起点班补基础去。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/161738267fd3542427.png)
+
+只能咋办呢，只能利用边缘不断用四边面去补呗：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1620171a013a924595.png)
+
+然后继续考虑用四边面来封，比如混接两根线修建下，不就变成四边面的洞了么：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/165053ddecc5916866.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/165555b419ed386048.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1656353a5428702341.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/165715b1661b252584.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/165735fca487535906.png)
+
+如上，我大概做了一下，你有几个烟囱就得做几次这样的操作，一有修改还得重新来过，所以还是直接ts做吧，有这空都不知道做出来多少个了。
+
+### 3D ConvexHull
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/17011172ea0e391846.png)
+
+根据给定的空间点集，生成一个凸包。其实就是得到三维点集的空间轮廓。Convex Hull的升级版。
+
+### 3D Delaunay
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/170444c7f8e0811071.png)
+
+Delaunay Edges的三维连线版本，空间当中的点集，互相连线
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1832077a4ed6127388.png)
+
+### 3D Voronoi
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/1836000cd55b125820.png)
+
+相比较自带的3D Voronoi，这个只生成线框。
+
+### Convex Hull Points
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-08/184059bb78dc835700.png)
+
+求点集凸包的点。把这些点连个线，就是凸包了。
+
+### TriRemesh
+
+![img](https://img.kancloud.cn/78/ba/78ba5a81818f1c73535670a260e8221e_1445x389.png)
+
+三角形重构网格，其实从名字就可以直观看出来了。tri就是triangle，三角形，remesh，重构网格。这个运算器是7.0新增的，可以将曲面或者网格转化成三角形拼合的网格，这些三角形会尽可能接近，边长，角度，面积都近似。虽然近似，但是只能做到均匀，并不能做到规则。所以建筑当中用的不多，除非有的时候你希望用尽可能一致的三角形去拼合对象，做嵌板划分，从而降低造价。
+![img](https://img.kancloud.cn/50/3c/503c63b52cf2d824a41380a09b35f917_1457x552.png)
+最典型的一个例子，就是很早之前的世博轴阳光谷,但是聪明的你一定也已经发现了，直接三角形重构网格，生成效果和世博轴阳光谷并不一致，这就是我之前说的，能均匀，但是不能规则，但建筑设计表皮往往需要的就是规则，有韵律，不能随意，太过混乱。所以世博轴阳光谷当年做的时候其实是人为划分的网格
+![img](https://img.kancloud.cn/c6/12/c612811150e8d77df2be0b458b12492f_1198x788.png)
+![img](https://img.kancloud.cn/8d/9c/8d9cc1812c854103cd28c470842f26c8_850x456.png)
+![img](https://img.kancloud.cn/a4/a7/a4a7f5858931637289cb0b45481da05d_826x697.png)
+![img](https://img.kancloud.cn/49/99/499992c4a4bb18500ec19da9cc1af6d2_835x604.png)
+相关内容可以看一下《上海世博轴 阳 光谷找形综合技术研究》这篇论文，这就是完全另一种做法了，但是目标都是为了解决曲面变化过大，单元划分不均匀的问题。
+除此之外，对于我们建筑学来说，准确的说是对于建筑学在校学生来说，最有用的一个地方就在于他的一个输出端Dual，也就是对偶网格了：
+![img](https://img.kancloud.cn/22/0b/220b4eccfa13ab70b8165847a8033963_1715x528.png)
+而对偶的原理其实就是把相邻三角形中心点连线，得到的正好是六边形或者五边形图案：
+![img](https://img.kancloud.cn/15/fb/15fbc869f6b3063468cd0e0566a94a91_1748x562.png)
+所以你现在知道为什么那些先锋院校，特别喜欢做六边形的构筑物了吧，犀流堂里就有这么一节课，讲类似的构筑物建模的，有兴趣可以看一下：
+![img](https://img.kancloud.cn/9d/82/9d821c9922c903794051afda92a44fe4_1373x469.png)
+那么这时候你看到这种雕塑，你就知道是怎么回事了：
+![img](https://img.kancloud.cn/24/3d/243d3e423e56f94e5ebf644857744a66_667x1000.png)
+至于运算器的其他选项，就比较简单了，不太常用：
+![img](https://img.kancloud.cn/8c/17/8c17eb1eb0dff430271a20034ecce17b_1662x642.gif)
+Features用来通过附加曲线让生成的mesh尽可能贴合给定的曲线，获得较为规整的mesh：
+![img](https://img.kancloud.cn/44/1e/441e85f0d72504a567cb7e3561691e85_1662x642.gif)
+至于Target端，是用来将生成的三角形网格拉回到目标物体上，从而包括目标物体的作用，官方演示过一个例子，不过我们建筑应该是用不太到了：
+![img](https://img.kancloud.cn/06/01/06012c033b85899d33fda12811ba49f9_769x777.png)
+有兴趣的可以再看一下官方这个介绍帖子：
+[# Rhino 7.3 GH 新增工具 TriRemesh](https://mp.weixin.qq.com/s/fybUJXBrGTw2145P6dvsrQ)
+
+### Quad Remesh & Settings
+
+![img](https://img.kancloud.cn/63/25/6325207260732ce6838258c03cce5d82_1847x430.png)
+
+四边形重构网格，7.0新增的很流啤的运算器，重新拓扑结构，维持原造型基本不变的情况下，重构表面网格，且都是四边形网格。不过老实说，流啤归流啤，建筑里用的并不多，主要用在逆向上，尤其是一些网格模型，转成nurbs曲面。功能上和rhino里的是一样的：
+![img](https://img.kancloud.cn/3d/96/3d9601d78b2ca3302ac3fe83619b21b5_357x109.png)
+我们可以很容易的把一个网格面造型转换成四边面网格，然后转换为subd再转换为nurbs，来实现模型的逆向，从mesh模型转换成nubrs模型，从而用于生产加工：
+![img](https://img.kancloud.cn/79/bd/79bd3917c4b040db43b0436695f0a09f_1866x444.png)
+其中，镜像的设置，可以让生成的四边形网格对称：
+![img](https://img.kancloud.cn/f3/fe/f3fec134476b1d78a0d1550737cc468a_1691x659.png)
+自适应的设置可以根据曲面曲率变化来控制网格生成的数量：
+![img](https://img.kancloud.cn/07/16/07163964a3b6e303321a347c36d5e10f_1846x603.gif)
+其中还可以通过设置参考曲线来控制生成的网格的走势：
+![img](https://img.kancloud.cn/82/a5/82a585327b61b051259914de1723096a_1808x660.png)
+除了逆向之外，还可以讲造型转换成四边形网格，配合kangaroo进行一些优化计算。需要注意的是维持多重曲面边缘指的是多重曲面内部的边缘，详细介绍可以参考Rhino官方帮助文档：
+![img](https://img.kancloud.cn/0f/c4/0fc48a545936c414be1433832cff3116_583x576.png)
+
+## Util
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-02/195911fb8692614395.png)
+
+### Mesh Brep & Settings (Custom)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/110623f02c88646097.png)
+
+#### **Mesh Brep**
+
+根据S端设置讲brep转化成网格
+
+#### **Settings (Custom)**
+
+常规网格选项设置，brep转化成网格的原则就是在尽量保证维持原状的前提下转化成尽量少最好尽量规整的网格面，当然这也不是绝对的，因为如果转化成网格一般都是用来渲染的，那么不那么重要的或者离视点比较远的就可以转化的粗糙点，相反就精致点，如果转化成网格是为了嵌板优化等等实际建造要求那肯定就得人为控制不会这么随意的交给电脑来做。而至于这么多选项都是什么意思，看过起点班选项设置的同学们肯定很清楚，不知道的小伙伴也没关系，把下面的课补一下就行。nurbs转化成mesh是我们日常经常会遇到的，对，说的就是那些一定要导出su的领导。看了下面的课，你就能知道为什么你导出的su那么卡，以及该如何自己优化网格。
+
+http://www.rhinostudio.cn/course/1662
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1114444652f0170126.png)
+
+http://www.rhinostudio.cn/course/1410
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/111452c2a6cb383393.png)
+
+http://www.rhinostudio.cn/course/1184
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/111833938569306350.png)
+
+http://www.rhinostudio.cn/course/5
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1117448e5c32650881.png)
+
+### Settings（Speed）& Settings（quality）
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/111941d1e09e733507.png)![img](http://www.rhinostudio.cn/files/course/2019/09-09/11202047d676903368.png)
+
+#### **Settings（Speed）**
+
+#### **Settings（quality）**
+
+快速网格转化设置，看名字就知道，一个是快速的，精度低的，一个是质量高的，精度高的，根据需要设置呗，反正不论你怎么设置都不准了，所以就别老问什么，啊，rhino导入su怎么变折边了，啊，怎么导入su不准了，废话，mesh本来就不准，导进去看个意思得了，要什么自行车。
+
+### Mesh FromPoints
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/163519765a6a698325.png)
+
+从一个点阵创建网格面,类似于Surface from points运算器,只不过这两个运算器都对点的排布规律都有严格要求,并不是随便一堆点扔过来就可以成面的。
+
+### Mesh Surface
+
+**![img](http://www.rhinostudio.cn/files/course/2019/09-09/163726633426332373.png)**
+
+创建一个基于曲面uv分割得到的网格，本质上和Mesh FromPoints一个意思，都是根据细分后得到的点生成网格。不过需要注意的是，这个生成的mesh并不会继承surface的贴图轴，所以如果要进行材质显示的话，还得重新使用human的运算器给赋予一下贴图轴才可以正常显示。
+![img](https://img.kancloud.cn/a2/b0/a2b0566c477e307215a7625db85a03a8_1790x772.gif)
+
+### Simple Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1642284c3e47800711.png)
+
+根据输入的brep创建一个尽可能简单的网格来替换brep，说是尽可能简单，其实就是提取面四个交点直接生成网格，所以它说明里说只支持包含三角形或者四边面的brep，毕竟网格基本单元就是三角形和四边形。
+
+### Blur Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/164814e1ec33324486.png)
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/16501249035f424622.png)
+
+对网格颜色进行模糊化处理，I是模糊化的次数。可以让颜色之间过度的更好。
+
+### Cull Faces
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1651484492bc460395.png)
+
+按照p端规律，T删除，F保留，对网格的网格面进行删除。
+
+### Cull Vertices
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1707440da3cf020343.png)
+
+根据P端输入规则对网格点进行删除。F保留点，T删除点
+
+### Delete Faces
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/1711164bbd24753380.png)
+
+删除网格中指定序号的网格面。
+
+### Delete Vertices
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/171438e2f7d0886497.png)
+
+删除网格中指定序号I上的网格点。
+
+### Mesh Join & Disjoint Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/171558e1ce43752334.png)
+
+#### **Mesh Join**
+
+组合网格，注意网格不论是否相接都可以组合当做一个网格处理。这也是网格很有意思的一个地方，不像nurbs，必须边缘靠在一起或者边缘距离小于公差，才能组合，网格不论是否靠在一起都是可以join的，而且一旦join，就会当一个mesh来看，显示速度为大大提升。不过想想也是，mesh本质就是记录一堆点和网格面点序，靠不靠在一起无所谓。
+
+#### **Disjoint Mesh**
+
+分解网格,如果组合后的网格相接的话，则无法分解，如果是彼此分离的部分组合而成的网格，则可以分解成单独部分的网格。
+
+### Mesh Shadow
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/173213db4f66494315.png)
+
+创建网格在指定投影平面P上的阴影,将所有物体组合成单一网格后才能得到正确的投影,否则只得到每一个网格自身的投影,可惜的是这个运算器并不能得到投射到物体上的阴影。
+
+### Mesh Split Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/173610a3a883886457.png)
+
+利用平面P讲网格分割成AB两部分
+
+### Smooth Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/174014e72d56072082.png)
+
+柔滑网格，降低网格变化趋势。和手工当中的使平滑命令一个意思。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-09/174044cc571d972991.png)
+
+### Align Vertices——指定公差对齐网格顶点
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/2141393c8c65668119.gif)
+
+以指定公差对齐网格顶点。
+
+### Flip Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/215409178055760721.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/215420ceca44780506.png)
+
+翻转网格方向
+
+### Mesh CullUnused Vertices
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/2203004e7140323114.png)
+
+清除网格当中未使用的顶点。emmm，我还没遇到需要用它的情况。
+
+### Mesh Flip
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/221106a62a55821621.png)
+
+翻转网格方向。
+
+### Mesh UnifyNormals
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/2213062c17bc171282.gif)
+
+统一网格法线方向。下面的运算器和这个基本一个功能，只不过一个是插件。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/230147b30da3365297.png)
+
+### Mesh WeldVertices
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/2215517584a0982962.png)
+
+焊接网格顶点。所谓的焊接，如果你看过第三版官方GH运算器教程，那你肯定知道是什么意思，简单说，就是我可以用八个点来记录两个面，也可以怎么办？用六个点就记录了，其中两个点用两次呗，焊接就是干这个事儿的，把可以重复使用的网格顶点合并了，减少网格垫顶点数量。但这不是重点，重点在于对渲染的影响，下图左边未焊接，右边焊接了，焊接的很明显看起来光滑，没焊接的看起来一块一块的：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/22210844bb5d183573.png)
+
+这就是为什么你用su这种网格建模软件，做出一个多变体的拼的球体，渲染出来看起来还是那么的光滑，就是因为网格焊接的，渲染的时候会当作顺滑过度，计算机这么处理来欺骗你的眼睛。同时，是否焊接也决定了你显示模式里会不会看到网格的乱七八糟的线：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/222343f8bb29099344.png)
+
+### Quadrangulate
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/225541d86bc5815185.gif)
+
+对三角形网格进行四变化处理。
+
+### Triangulate
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/2259335aa5b4354757.png)
+
+四边形网格三角化。
+
+### Unweld Mesh & Weld Mesh
+
+![img](https://img.kancloud.cn/04/df/04df000aed498e3f4e931afbef0c0e55_640x667.gif):-: ![img](http://www.rhinostudio.cn/files/course/2019/09-11/230641145d76370648.png)
+
+#### **Unweld Mesh**
+
+取消焊接，Angle为指定角度，边缘夹角超过指定角度就取消焊接，所以我们输入0的话，就是全部取消焊接了。至于焊接啥意思··看上上面wled points。
+
+#### **Weld Mesh**
+
+焊接网格，网格边缘夹角小于指定读书，就焊接。
+
+------
+
+焊接网格和取消焊接网格在模型上操作的本质，其实就是是否合并网格当中网格面之间的共用点。比如我们先来随便画一个mesh box：
+![img](https://img.kancloud.cn/a5/82/a582e6df3e911f2802c905f7555fa370_1292x839.png)
+:-: 这个box我们打开控制点看一看有什么特殊的，你会发现，拐角处的控制点是重复的，但是面内部的没有，而且炸开之后，分成的是六个面，内部虽然有网格线，但是没有一起炸开：
+:-: ![img](https://img.kancloud.cn/04/df/04df000aed498e3f4e931afbef0c0e55_640x667.gif)
+:-: 所以这个MeshBox是六个焊接过后的平面组合而成的。焊接，一来降低了mesh的控制点，毕竟多个网格会共用相同的网格顶点。二来是有关显示的，显示模式中把网格的边缘显示设成0，就可以让这些mesh看起来和一般的nurbs物件毫无差异：
+:-: ![img](https://img.kancloud.cn/00/1b/001bee78edaabb0e19d69f0d7d2a5f2b_1733x867.png)
+:-: 所以经常有小伙伴纳闷为什么Su或者max模型导入rhino一堆乱七八糟线的，其实只是你不知道怎么设置网格的显示：
+:-: 网格线框宽度1：
+![img](https://img.kancloud.cn/40/c1/40c1149a320031c5ca54f8cd8aec0c18_1532x782.png)
+:-: 网格线框宽度0：
+![img](https://img.kancloud.cn/6a/e3/6ae3334e431c45065bdc272b7bfd246c_1532x782.png)
+:-: 那么继续说，除此之外，我们可以通过焊接来控制边缘是否显示,比如我给box焊接一下，角度设置为180，也就是所有网格夹角边缘小于180的都要被焊接，基本上就是焊接所有边缘，然后你就会得到一个很奇怪的box:
+![img](https://img.kancloud.cn/ea/09/ea090d73829fe0211e8e763cc23c6ba8_644x658.png)
+:-: 这是因为焊接后的顶点会具有材质过渡的属性，网格显示就会有这样的渐变效果，所以如果你看到这样的效果不爽，直接unweld就行。
+
+### Exposure
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/230948cbdc55551100.png)
+
+计算指定射线下网格的遮挡情况，你就当算阴影的就行了。Exposure输出端输出的是每个顶点的曝光量吧。
+
+### Occlusion
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-11/231402a07543905002.png)
+
+求mesh物体之间在指定射线下的遮挡关系。只不过这个运算器直接输出是否被遮挡。
+
+# Intersect
+
+## Mathematical
+
+![img](http://www.rhinostudio.cn/files/course/2019/07-02/20083200c0a9070556.png)
+
+这一组和下面几组的运算器都是求相交的。不少都是常用运算器。
+
+### Brep / Line——多重曲面与直线的交点
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/12200992b090022081.png)
+
+计算Brep和直线的无限延长线的交点，是的，意思就是指，直线和物件没相交也没关系，延伸线相交就行，可以右键选择Limit to First，则只保留直线和物体相交的第一个点，其他的点删除。有意思的是新版本还增加了个是否多线程运算的选项。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1230135f172c356724.png)
+
+### Curve / Line——曲线与直线的交点
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/123315b54913656474.png)
+
+求曲线和直线的交点，及其在曲线上的t值，以及点的个数，同样有Limit to First的选项，用途同之前。
+
+### Line / Line——直线与直线的交点
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/123501554589710588.png)
+
+求两根直线之间的交点以及点在各自曲线上的t值。利用这个运算器可以很容易实现Rhino中connect的效果，因为这里的Line其实默认是无限直线，那么求出交点之后延伸也好，画根线补齐也好，都可以实现connect的效果：
+![img](https://img.kancloud.cn/a3/c6/a3c625bb555146295149193bfa90bf36_1698x604.png)
+
+### Mesh / Ray——网格面与射线的交点
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/123750e3afce594398.png)
+
+求网格和射线的交点,射线由起点和指定的矢量决定,因为是射线嘛，当然只保留照射到物体上的点了，就好像你激光笔不会照到墙背后一样。
+
+### Surface / Line——曲面与直线相交
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/12403649eccb970955.png)
+
+求曲面和直线相交。
+
+### Brep / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/124419371949682875.png)
+
+求Brep和平面的交线和交点。
+
+### Contour
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1246135f1935203328.png)
+
+等距断面线，基本使用方法和rhino中的一致，并且会自动将每一层相交得到的所有物体放到同一个数据分支下。不过和rhino手工不一样的是，gh中它就不能对线进行处理，rhino中对线等距断面线是可以得到点的。
+
+### Contour (ex)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/125222617467048597.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/12523869bc05474563.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/12544883a657864749.png)
+
+另一种等距断面线的方式，根据指定平面以及与这个平面的相对距离来与物体相交得到线，相交方式有两种，非此即彼，如果选择Offset输入端，就是等距的，如果是Distances则是叠加距离，
+
+### Curve / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/125905925fd2723415.png)
+
+求一个曲线和一个平面相交的点以及点在曲线上的t值和点相对于平面的uv坐标。
+
+### Line / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1546019831e8508823.png)
+
+求一个直线和一个平面相交的点以及点在曲线上的t值和点相对于平面的uv坐标。和上一个运算器一个意思。
+
+### Mesh / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1548513d16fc587928.png)
+
+求网格和平面的交线。
+
+### Plane / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1550080d905c440711.png)
+
+计算两个平面的交线，由于两平面是无限平面，所以只取其单位一的长度。
+
+### Plane / Plane / Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1614593be204078183.png)
+
+计算三个平面的交点以及彼此之间的交线，目前我没用过它，也不知道啥情况能用到它。
+
+### Plane Region
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/161627b8bead823605.png)
+
+在指定投影平面p上根据多个相交平面B获得相交区域围合线（我感觉我好像要召唤出什么了）。
+
+### IsoVist
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/1622240b3cd0701643.png)
+
+可以用于视线分析的一个运算器，计算平面P中心与观察物体O是否产生遮挡并绘制出连接线。注意Obstacles输入端只能是线。
+
+### IsoVist Ray
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-13/162500ccafd2720886.png)
+
+上一个运算器的简化版，只检测指定直线S与观察物体Obstacles是否遮挡并返回交点。
+
+## Physical
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/145646e4e720475740.png)
+
+### Curve / Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/1506102b88f3402429.png)
+
+求两个曲线交点及点在各自曲线上的t值。
+
+### Curve / Self
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/150837562d29934488.png)
+
+求曲线的自交点。
+
+### Multiple Curves
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/151038e0f6d5046237.png)
+
+求多个曲线的交点。
+
+### Multiple Curves
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/151434adc24f992555.png)
+
+求多个线的交点，有同同学不大理解为什么多个线相交还会有什么IndexA和IndexB，其实很简单，这里的AB输出端，其实就是每个相交点对应的两个线而已。看下下面的演示你就知道了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/15183284fdf9209954.png)
+
+### Brep / Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/152109579fb7132170.png)
+
+求面与面之间的相交。
+
+### Brep / Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/15240883f5f1458454.png)
+
+求面与线相交。
+
+### Surface / Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/15280222147e993085.png)
+
+求曲面和曲线相交的各种属性╮(╯▽╰)╭，你看这个属性，它又多又全。
+
+### Surface Split
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/153550630da2260825.png)
+
+用线对曲面进行分割。运算量比较大。基本可以认为等于Rhino里的split命令，用曲线对曲面进行分割。但是也只能对曲面进行分割，如果你要对多重曲面进行分割的话，要么把多重曲面炸开，炸开成多个曲面之后挨个分割，要么就得换个运算器了，可以试试：
+![img](https://img.kancloud.cn/25/e3/25e3ed74ff1a899e2bc0bd3f8b383a86_1571x704.png)
+
+### Mesh / Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/15411067b368467535.png)
+
+求网格和曲线相交。
+
+### Mesh / Mesh
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/154323b7f9d4764337.png)
+
+求网格和网格相交。可以右键运算器选择Use new algorithm，使用新算法求相交。不过试了下没有多大区别。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/154533d459c8635784.png)
+
+### Collision Many/Many
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/1608193a180b675984.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/161853d20247427119.png)
+
+测试多个物体之间是否相交。
+
+### Collision One/Many
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-14/16220915f66d558377.png)
+
+判断一个物体和其他多个物体是否碰撞。
+
+## Region
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1457117d4fea157276.png)
+
+### Split with Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/2020524a8317894813.png)
+
+用一个brep去将曲线进行分割。
+
+### Split with Breps
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/202311fb9023666848.png)
+
+用多个brep去将曲线进行分割
+
+### Trim with Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/202447fa93fe170543.png)
+
+用一个brep对曲线进行修剪，由于GH并没有办法识别鼠标点击，自然就帮你把修剪后内外的线标出来了。
+
+### Trim with Breps
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/202623f3f27e473011.png)
+
+用多个brep对曲线进行修剪
+
+### Trim with Region
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/202740cd528c066895.png)
+
+用一个封闭区域曲线对曲线进行修剪分割
+
+### Trim with Regions
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-15/202842a92820554524.png)
+
+用多个封闭区域曲线对曲线进行修剪分割
+
+## Shape
+
+### Boundary Volume
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/193954a4b7a4417987.png)
+
+通过边界面围合，创建一个封闭多重曲面
+
+### Solid Difference
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/1941371305fe557416.png)
+
+布尔减法，用A减去B。另我意想不到的是，用面也可以对物体进行布尔运算，不过修剪掉的部分看曲面的法线方向了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/194754ad10e0892977.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/1948557810e6558328.png)
+
+​	Solid Intersection
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/19430155fdff427467.png)
+
+### **Solid Intersection**
+
+布尔交集，求两个brep相交的部分。这个运算器只有两个输入端，那是不是我们就只能计算两个物件的布尔交集了？并不是，如果要计算多个物件的交集，我们就可以把相交的两两情况都罗列出来，然后进行布尔运算，但是这样所有的都计算一遍，就太卡了，所以我们可以通过collision many/many运算器，把不相交的情况排除，再计算即可，如下图：
+
+![img](http://www.rhinostudio.cn/files/course/2021/03-01/222703797b0e430674.png)
+
+![img](http://www.rhinostudio.cn/files/course/2021/03-01/222641187e8b342627.png)
+
+只不过如果多个物件都有交集的话，最后算出的结果得在求个并集。
+
+### Solid Union
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/19443867e25d606547.png)
+
+布尔并集，讲两个多重曲面合并。
+
+### Split Brep
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-16/19503392a631187402.png)
+
+用一个brep去分割另一个brep，这里就是单纯的分割了，不是布尔运算。意味着得到的肯定不是封闭实体。
+不过其实直接使用曲面也可以，并不是一定要求是封闭实体。
+![img](https://img.kancloud.cn/25/e3/25e3ed74ff1a899e2bc0bd3f8b383a86_1571x704.png)
+
+### Trim Solid
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/10205027f141108961.png)
+
+用一个brep对另一个brep去修剪。
+
+### Region Difference
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/102718664a7f572374.png)
+
+曲线布尔运算之，布尔减法，一个图形减去零一个图形。不过曲线布尔运算这几个运算器不要报太大期望，基本上，图形复杂的时候就会出错。
+
+### Region Union
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/10302625b257301421.png)
+
+曲线布尔运算之布尔并集。
+
+### Mesh Difference
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/10341790a9f5560339.png)
+
+网格布尔运算之布尔差集。
+
+### Mesh Intersection
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/103605551f39904221.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/10361712869a519188.png)
+
+网格布尔运算之布尔交集。
+
+### Mesh Split
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/103715b4cd8d091150.png)
+
+用一个网格分割另一个网格。
+
+### Mesh Union
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/103804c373e2644915.png)
+
+网格布尔运算之布尔并集。讲多个网格合并成一个。
+
+### Box Slits
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/1041371459fe371265.gif)
+
+箱形狭缝，咱做各种木结构不是经常要处理这种咬合关系么，这个运算器可以直接做，只不过这个运算器只能能处理box，比较局限。各位也可以参考一下犀流堂搬运的youtube上的教程：
+
+http://www.rhinostudio.cn/course/1209
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/10433242c562423597.png)
+
+### Region Slits
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-19/104618a0e5ec786898.gif)
+
+刚才是处理box的，这个可以直接处理曲线，更灵活点，但是又处理不了空间曲线,所以真要遇到复杂造型，还是得自己做呀，不要老指望现成运算器。
+
+### Split Brep Multiple
+
+![img](https://img.kancloud.cn/10/fd/10fdaec12e040e1c25244cd6ae742456_1604x539.png)
+
+用多个物体对brep进行分割。
+
+# Transform
+
+## Affine
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1458102c6773836528.png)
+
+整个Transform中的运算器都是关于变形的，而且基本每个运算器都会有个Transform输出端用来记录变形数据，这些数据是可以合并的。之前第一节的时候咱们就说过，忘记的小伙伴请到前面复习一下：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/153616042d6d757755.png)
+
+### Camera Obscura
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/152537131cd8412385.png)
+
+利用小孔成像原理讲物体进行变形翻转.
+
+### Scale
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/15205575ac5c617380.png)
+
+对物体在指定平面进行缩放。
+
+### Scale NU
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/153214eedd72423705.png)
+
+根据指定的缩放中心平面对物体进行三轴可控的缩放，其中三轴的方向就是指定平面p的三轴方向。
+
+### Shear
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1545106c5ada170966.gif)
+
+通过参照点和目标点决定的矢量方向来对物体进行倾斜变形。
+
+### Shear Angle
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/15472914be18654524.png)
+
+根据输入围绕指定工作平面的绕转角度来对物体进行倾斜。
+
+### Box Mapping
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1556579b9477401069.gif)
+
+根据source盒子和Target盒子之间的变形差距对物体进行变形。是的，咱们的绸墙就可以这么做。先做好单原件，然后根据box来变形，这样单原件想怎么变都可以：
+
+http://www.rhinostudio.cn/course/615
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1558328bfd28958489.png)
+
+### Orient Direction
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/160436475059724209.png)
+
+参照两组矢量之间的变形来对物体进行映射变形，可以看到物体前后根据AB两组矢量的变化进行了相对应的缩放和旋转。有点两点定位的意思，对，说的就是rhino当中的这个命令:
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/160723baf808679748.png)
+
+### Project
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/161542e52179716507.png)
+
+将物体投影到指定平面P,一般咱都是用来投影线。
+
+### Project Along
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1619280945fa000560.png)
+
+将物体根据指定投影方向D投影到指定平面P。
+
+### Rectangle Mapping
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/16292660c1b1390663.png)
+
+矩形映射,根据矩形之间的变形来对物体进行变形,因此只有二维的变形。那如果是多个物体呢？
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/163450a9c8ea750757.png)
+
+### Triangle Mapping
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/170325d57c96115934.png)
+
+有矩形，当然就有三角形映射了,根据三角形之间的变形来对物体进行变形,因此只有二维的变形。
+
+## Array
+
+### Box Array
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1847302a5b9d577615.png)
+
+三维阵列，阵列间距根据你指定的box大小获得。
+
+### Curve Array——沿曲线阵列
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/185535758329000121.png)
+
+沿着曲线进行阵列。
+
+### Linear Array——直线阵列
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/185849962dca816278.png)
+
+直线阵列,和rhino的直线阵列命令一样，都是根据阵列距离和方向来朝着直线方向进行阵列。
+
+### Polar Array
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/190211343cf2611833.png)
+
+弧形阵列，半径是根据物体到指定阵列平面中心的距离确定的，并且可以控制阵列角度。
+
+### Rectangular Array
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1904215294d5835373.png)
+
+矩形阵列，根据绘制的矩形决定xy方向阵列的距离。
+
+### Kaleidoscope
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/192311f94a62861730.png)
+
+万花筒复制，将同一个元素无限复制阵列,并且是可重复的,形成无限变化的图案。国外有个大佬做了个万花筒图案的打包运算器，给大家传上来。大家可以自己了解一下。
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/1926179ed7d6677575.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-25/19253823bd7b967758.png)
+
+图案还是很帅的。
+
+## Euclidean
+
+### Mirror
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/17171175c0c3277069.png)
+
+以指定工作平面对物体进行镜像操作。
+
+### Move
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/17201712e95b591569.png)
+
+以指定矢量方向对物体进行移动，虽然教move，但是在gh中你就把他当copy看就是了。
+
+### Move Away From
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/1724353c5649310135.gif)
+
+将物体沿着远离指定物体Emitter的方向进行移动，移动方向由E与物体G之间的关系决定。
+
+### Move To Plane
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/174203b04f24540831.png)
+
+将物体移动到指定平面上，相当于先给物体来个boundingbox，然后根据最低点来移动到平面上。有点类似于对齐命令：
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/174313169659352501.png)
+
+### **Orient**
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/175304087458907313.png)
+
+将物体根据平面A对应的移动到平面B上。我经常用来把截面线对齐到轨迹线起点位置然后单轨扫掠，做各种线脚啊，装饰槽啊分分钟。除此之外，很多之后，我们需要把多个空间平面嵌板拍平到平面，然后标注，导出图纸，那我们就可以利用它来拍平：
+![img](https://img.kancloud.cn/cc/fe/ccfe875eed3648ad252452c845f674d8_1532x782.png)
+![img](https://img.kancloud.cn/36/6a/366a5735ef42a885059265ae8acfb7ae_1532x782.png)
+![img](https://img.kancloud.cn/f6/56/f656bfd8cf6cc28a51818b2c7e89e4f7_1435x630.png)
+
+### Rotate
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/17580918f324900539.png)
+
+将物体根据指定平面进行旋转,唯一需要注意的就是角度是弧度制。可以右键改成degrees角度制。
+
+### Rotate 3D
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/1802571d0227523541.png)
+
+将物体根据一个点和一个矢量方向进行旋转，其实就是绕轴旋转，一个点加一个矢量，不久可以画个直线么。
+
+### Rotate Axis
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/1804342754ed127481.png)
+
+刚吐槽完，你看gh就给你准备好了一个直接根据指定直线作为旋转轴旋转的运算器。
+
+### Rotate Direction
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/1812248a59ed767028.png)
+
+将物体从一个方向旋转到另一个方向。6.0新增的运算器，好处是省去了找轴线算角度的麻烦，一步到位，朝向哪里，就旋转到哪里。
+
+## Morph
+
+### Blend Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/190139396f89096909.png)
+
+在两个面之间创建一个Twisted Box，其原理就是根据曲面domian提取曲面中的一部分，然后提取四个角点总共八个点直接直线连接成体,注意虽然看到的只有线，但是实际是体，bake出来就知道了。
+
+### Surface Box & Box Morph
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/1916408c800c312308.png)
+
+#### **Surface Box**
+
+根据曲面uv区间，提取对应曲面然后提取四个点直线连接挤出厚度H生成Twisted Box。注意这一步会进行曲化直操作，毕竟得到的是twist box，边都是直线。
+
+#### **Box Morph**
+
+根据Reference端输入的正常box和T端输入的Twisted box之间的形变关系对物体对应变形放置到T端输入的Twisted box内,这也是一种曲面流动的方法,只要设计好嵌板就行，只不过由于box都是直线，所以变形之后的物件也是按照直线来变形的，要做基于曲面的曲线杆件或者嵌板的时候这就不行了。
+
+### Twisted Box
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-29/192223f20241534310.png)
+
+根据八个点生成扭转box，emmm没见过谁这么费力用这个办法去生成的。
+
+### Bend Deform
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/22113464a81b529900.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/22120555e364871456.png)
+
+根据给定的圆弧对物体进行掰弯。和手工当中的弯曲命令一个意思。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/221302e74e70177573.png)
+
+### Flow
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/222740c9832e322905.gif)
+
+沿曲线流动。具体用法参考手工命令中的。别告诉我你手工不好。不学好手工就刚gh，那就是在玩火。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/22283978df79411611.png)
+
+### Maelstrom
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/224046ebfccc480643.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/224059bd0746211376.png)
+
+对物体进行绕转，等同于rhino手工当中的这个命令：
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/2241277c9883155532.png)
+
+### Mirror Curve
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/224738aac352815370.png)
+
+以自由曲线对物体进行镜像。就是Tangent端我也没搞明白干啥的。
+
+### Mirror Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-16/225053dab2e2895206.png)
+
+基于曲面对物体进行镜像并变形。
+
+### Splop
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/170115b1e381912259.png)
+
+定位物件至曲面，等同于Rhino当中下面这个命令。可以把物件根据定位放置到曲面的指定位置并变形。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/170143707c3a704535.png)
+
+### Sporph
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/171051b87a6e699068.png)
+
+完全按照rhino手工当中的曲面流动命令的操作习惯来写的运算器，两个要输入的uv坐标，其实就是我们在曲面流动的时候让我们：
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/171214e9d6c6527671.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/171231f4eaa5926085.png)
+
+以前大家不知道这是在干嘛，现在应该知道了，其实就是在找定位。就是奇怪的是不论我怎么改uv值，曲面流动方向并不能翻转，除非，对调一下uv方向：
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/171630e7e177484695.png)
+
+需要注意的是，gh中如果你流动物件是两点一阶的直线，那必须先重建成曲线才能正常流动，不然流动上去也会是直线，并不会跟着曲面变形，这点需要注意。
+
+### Stretch
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/172708c6b73e626460.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/17271977753e958650.png)
+
+等同于rhino当中以及cad当中的延展，维持物体一部分不变，只单轴缩放指定区域的物体。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/1727440df533691679.png)
+
+### Surface Morph
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/173122ae23fd154283.png)
+
+GH中原版的曲面流动运算器。用法和前面那个稍有不同，但原理都是一样的，只不过这里参照物不再是个面，而必须是个box，uvw区间可以决定你想流动到的区域。如果我们把uvw都改成0 to 0.5，就会只流动到四分之一区域。毕竟所谓的uv，其实就是个二维空间坐标系。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/173403b55afb394799.png)
+
+需要注意的是，这里的reference，是box，不是面，而且即便是mm单位，box的高度也得是1，不是1000，不然会变形。
+
+### Taper
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/213812444d7b124733.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/213347b68ca6509411.png)
+
+对物体进行锥状化变形，等同于rhino当中下面这个命令。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/21341024bc44241693.png)
+
+### Twist
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/214117d641a3223410.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/2140524703f5795214.png)
+
+扭转物体，和rhino当中的扭转命令一个意思，以指定轴对物体扭转指定角度。
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/214311f5cc11313585.png)
+
+手工的时候我们就拿他来做的梦露大厦，用gh一样分分钟就ok了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/2149095ed97e030155.png)
+
+### Map to Surface
+
+![img](http://www.rhinostudio.cn/files/course/2019/10-21/215734e2bbf3791275.png)
+
+其实也是曲面流动，只不过是简化版，只能处理曲线对象。source为参照曲面，target为目标曲面。
+
+### Point Deform
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/19274623eedb462216.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/19280669304a038313.png)
+
+通过移物体控制点来改变物件形状，嘛，虽然说的是物件，但是有控制点的，也就只有曲面，所以这个只能针对曲面去调整了。比如上图，我们就是提取了曲面的控制点，然后给了随机的上下方向的矢量，然后做出随机起伏的效果。
+
+### Spatial Deform
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/194324c0b443796720.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/194429dae52e101459.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/194534e321bb898085.png)
+
+上面的运算器是移动控制点来对曲面变形，这个更暴力，给点，给矢量就可以，不过得到的只能是这样比较尖锐的效果。咋的，这是要模拟膜结构么。
+
+### Spatial Deform (custom)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/1951528e38ff734209.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-12/195316c34260778126.png)
+
+比上一个运算器多了个fall off，我以为是控制衰减的，结果跳来跳去没啥区别，还巨卡，我觉得实际不大可能用这个吧，大家可以自己尝试下。
+
+## Util
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/15000225be6c564184.png)
+
+眼尖的小伙伴会注意到Transform组里的运算器，基本上都带一个Transform的输出端，这个呢我们在前面说过，接下来这一组的运算器，就主要是处理这方便内容的。
+
+### Compound & Transform
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/223334e4accd797922.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/2239059352f5689286.gif)
+
+比如我们想做个小动画，让一个box一边移动一边旋转，那我们怎么做呢？这时候zai就可以运用这里的运算器了。把移动和旋转两个变化用compound合并然后用transform运算器赋予给我物体就可以了。这样理论上我们可以做出非常多复杂变化的动画。比如咱们的招牌课程之一：
+
+[GH小清新建筑生成动画教学](http://www.rhinostudio.cn/course/1512)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/11262401d2a4560182.gif)
+
+### Inverse Transform
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/2250422309ab644557.gif)
+
+知道了用法，下面的运算器就简单了，Inverse Transform就是翻转变化，只是我不太理解这个翻转之后怎么就放飞自我了。
+
+### Split
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/225155bab45a229332.png)
+
+对Transform进行拆解。
+
+### Transform Matrix
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/2254295a5df5720328.png)
+
+emmm，我高数没学好，老实说并不知道矩阵是啥，就知道是个很有用的东西。隐约记得高中的时候浅显的学过，帮各位搜了一下，有兴趣的可以百度搜索下看看相关文章。GH这里仅仅是个预览工具。
+
+[浅谈矩阵变换——Matrix](https://blog.csdn.net/u012964944/article/details/77824768)
+
+### Group & Ungroup
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/23060086b1a0426202.png)
+
+将分组内的所有数据成群组，作为一个物件来处理的运算器。bake的话，bake到rhino中的物体也会 自动成群组。很方便的一个运算器，用的好的话可以回避一些复杂的数据结构操作，比如，如果我想把现在的六大组每组六个数据改成两大组，三小组，每组六个数据，咋办呢，你就可以这样：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/230927744e35170715.png)
+
+### Merge Group
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/231157dd36ca424664.png)
+
+将AB两个群组合并成一个。是的，这个运算器只能合并俩，你放大了也不会多出输入端来。
+
+### Split Group
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-13/231457153764456453.png)
+
+有合当然有拆了，这个运算器可以吧群组拆分成两组，但是你要给的indices是要拆出来的所有元素的序号，而不是split list那个indice，所以这里用的是复数，讲究。
+
+# Display
+
+## Colour
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/15022952a744795441.png)
+
+这一组里都是关于colour的运算器。不得不说，对于颜色定义来说，方法实在是太多了。
+
+### Colour CMYK
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/105319f3ce40611517.png)
+
+CMYK颜色，四个输入端都是0-1之间。
+
+### Colour HSL
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/105626ad363c702486.png)
+
+HSL颜色，注意这个运算器是可以控制透明度的，可以做一些消失动画啥的。
+
+### Colour HSV
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/110413d64dff335513.png)
+
+HSV颜色，至于二者的区别下面来自百度：目前在计算机视觉领域存在着较多类型的颜色空间(color space)。HSL和HSV是两种最常见的圆柱坐标表示的颜色模型，它重新影射了RGB模型，从而能够视觉上比RGB模型更具有视觉直观性。
+HSL代表色调(Hue)，饱和度(Saturation)和亮度(Lightness)，通常也称为HLS。
+
+HSV代表色调，饱和度和值(Value)。
+
+注意HSL 和HSV的两个H的含义是相同的，而饱和度的定义是不同的，虽然都叫饱和度，从后面的定义可以看出二者的不同。
+HSL 和 HSV 二者都把颜色描述在圆柱体内的点，这个圆柱的中心轴取值为自底部的黑色到顶部的白色而在它们中间是的灰色，绕这个轴的角度对应于“色相”，到这个轴的距离对应于“饱和度”，而沿着这个轴的距离对应于“亮度”，“色调”或“明度”。 HSV 以人类更熟悉的方式封装了关于颜色的信息：“这是什么颜色？深浅如何？明暗如何？”。HSL 颜色空间类似于 HSV，在某些方面甚至比它还好。HSL的模型为双圆锥形状。
+这两种表示在用目的上类似，但在方法上有区别。二者在数学上都是圆柱，但 HSV（色相，饱和度，明度）在概念上可以被认为是颜色的倒圆锥体（黑点在下顶点，白色在上底面圆心），HSL 在概念上表示了一个双圆锥体和圆球体（白色在上顶点，黑色在下顶点，最大横切面的圆心是半程灰色）。HSV 模型在 1978 年由埃尔维•雷•史密斯创立。
+
+### **Colour L\*ab**
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/11185827a7bf249838.png)
+
+以下位维基百科的定义：
+
+**Lab色彩空间**（英语：**Lab color space**）是颜色-对立空间，带有维度**L**表示亮度，**a**和**b**表示颜色对立维度，基于了非线性压缩的[CIE XYZ色彩空间](https://zh.wikipedia.org/w/index.php?title=CIE_XYZ色彩空间&action=edit&redlink=1)坐标。
+
+**Hunter 1948 L, a, b色彩空间**的坐标是L, a和b。[[1\]](https://zh.wikipedia.org/wiki/Lab色彩空间#cite_note-Hunter1948a-1)[[2\]](https://zh.wikipedia.org/wiki/Lab色彩空间#cite_note-Hunter1948b-2)但是，Lab经常用做**CIE 1976 (L\*, a\*, b\*)色彩空间**的非正式缩写（也叫做CIELAB，它的坐标实际上是L*, a*和b*）。所以首字母Lab自身是有歧义的。这两个色彩空间在用途上有关联，但在实现上不同。
+
+不过奇怪的是，虽然有alpha通道，但是没效果，想控制透明度，得修改a输入端。
+
+### Colour LCH
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/1123357656aa087199.png)
+
+依然是个让我看不懂的颜色定义，依然alpha有但是控制不了透明度。倒是色度和色调俩输入端可以改透明度，这是什么操作？？
+
+### Colour RGB
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/112645582ca6544637.png)
+
+终于到我们熟悉的RGB颜色了，看着就亲切，不过需要注意的是，所有输入端的区间都在0-255，包括透明度alpha。
+
+### Colour RGB (f)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/11282042a34c740651.png)
+
+同样是定义RGB颜色的，不过区别是输入端全都是0-1区间的，省去了咱们remap的功夫。
+
+### Split AHSL & Split AHSV & Split ARGB
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-14/113123bc6ff4554132.png)
+
+将颜色拆分未HSL 和 HSV 和RGB三种色系对应的值。需要注意的是，rgb你可以右击运算器，修改成0-255的区间。![img](http://www.rhinostudio.cn/files/course/2019/11-14/11325024681e297316.png)
+
+### Colour XYZ
+
+![img](https://img.kancloud.cn/74/62/746242af414c2e3d9c29382909bb2b81_1511x530.png)
+
+用CIE1931XYZ色度系统来生成颜色，其中的Y轴主要负责亮度，XZ负责色度。
+![img](https://img.kancloud.cn/9b/29/9b29da601bbbe48d13c30367cefc817a_991x1161.png)
+![img](https://img.kancloud.cn/15/2a/152a3ac1bcf5148160efe8c703773cc4_963x1067.png)
+[# CIE1931标准色度系统](https://blog.csdn.net/QinLanXin/article/details/88884669)
+
+## Dimensions
+
+### Text Tag
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/091554aa415d503610.png)
+
+在给定点上进行位子标注，可以指定文字颜色。只不过你并不能控制显示的大小。点击bake之后，在rhino当中得到的是注释点，注释点本身显示也是没有固定大小的，是按照显示屏幕的百分比来控制大小。主义这个注释点咱们是无法导出cad的，注释点是rhino独有的，想导出得使用convertdot命令讲注释点转化成文字。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/091715bdbace710302.png)
+
+### Text Tag 3D
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/092306a2c2dd744307.png)
+
+这个就是我们经常用的了，可以标注文字，控制大小，bake出来就是text文字，可以直接导出cad。在justification输入端右键，即可修改文字的对齐方式。一般都选择bottom left，这样bake出来的文字，导入cad之后文字原点就是标注点的位置，刚好重合，这个是结构师曾经给我提出的要求。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/092444c7aec4218881.png)
+
+相关课程大家可以看一下
+
+[钢结构顶点和杆件标注及表格出图](http://www.rhinostudio.cn/course/1663)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1127186bcacc481953.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1127197398b3854613.jpg)
+
+那这个时候就会有眼尖的小伙伴发现一个问题，这个运算器，和之前的text tag都是无法修改字体的，如果想修改字体怎么办？
+原生运算器是无法修改字体的，所以第一步咱们去找插件，比如我知道的VisualARQ的GH运算器：
+![img](https://img.kancloud.cn/f4/a9/f4a939f0f10bbe4f0531d68f55062631_1476x467.png)
+但是比较尴尬的是，ARQ的text运算器只能显示在着色模式下，渲染模式不显示，不知道是不是我个人的问题。
+
+又或者human中的运算器，但是只能面对摄像机，还是不是的闪烁，不好用：
+![img](https://img.kancloud.cn/cc/60/cc60ddbcbc01ae9284977e720c90c80c_1305x569.png)
+![img](https://img.kancloud.cn/0c/eb/0ceb9223c5ae5e05b2ec9db66d4a382d_1060x371.gif)
+实在不行，咱们自力更生，自己写，用C#调用displayPipe里的drawText方法，就是比较邪门的是，必须GH里有物件，它才可以正常显示，不过好处是渲染模式也可以显示，以下代码仅供参考：
+![img](https://img.kancloud.cn/02/08/020857d85faf2c71a78b924e177a6349_1666x881.png)
+
+private void RunScript(string text, Color color, Plane plane, string font)
+{
+TextEntity drawText = new TextEntity();
+drawText.PlainText = text;
+drawText.Plane = plane;
+Rhino.DocObjects.Font drawFont = new Rhino.DocObjects.Font(font);
+drawText.Font = drawFont;
+drawText.Justification = TextJustification.Center;
+drawText.TextHeight = 3;
+Color drawColor = color;
+tt = drawText;
+cc = drawColor;
+}
+
+//
+TextEntity tt ;
+Color cc;
+
+public override void DrawViewportWires(IGH_PreviewArgs args)
+{
+
+```
+args.Display.DrawText(tt, cc);
+```
+
+}
+[GH源文件请点击这里到犀流堂下载](https://www.kancloud.cn/rhinostudio/ghuse100/[http://www.rhinostudio.cn/course/1397/task/6264/show](http://www.rhinostudio.cn/course/1397/task/6264/show))
+
+### Aligned Dimension——对齐尺寸标注
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/092906233c10354371.png)
+
+
+
+对齐尺寸标注，即Rhino出图工具中的对其尺寸标注命令的gh版。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/092948c2427d967394.png)
+
+这里的text端不但但给你造假用的，你还可以在这里控制标注后的小数点位数。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/09332554d584048510.png)
+
+同样的，这个运算器也是可以bake的，bake之后的标注样式，都是以rhino当前标注样式决定的。所以，gh中显示样式和bake之后的样式是不一样的，这个需要注意一下。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/093557ddea7f411310.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/0936513b03a9303048.png)
+
+### Line Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/09384664c648992407.png)
+
+直线标注，这个比较直接，给直线，就给你标注，很方便，因为普通的标注，尤其是手工中的标注都是要基于工作平面的，比如你想标注一下建筑高度，那你就必须切换到前视图等视图才能标注。那这个就很方便了，只要你把想标注的线全拉过来，卡卡就都标好了。
+
+### Linear Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/094403381de0052672.png)
+
+说是两点之间创建一个投影到指定直线的标注，其实对于我们就等于rhino以及cad中的垂直标注和水平标注，只不过这个运算器自由性更大咧，不在局限于垂直和水平方向，竖直放样也可以，就看你需要了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/0944546bad1f541625.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/0945051ca43b881929.png)
+
+### Marker Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/09481713984e174429.png)
+
+引出标注，text端输入的Z={2:0.0}，意思就是指Z=z轴高度，小数点位数1位，其中这个2是什么意思呢？其实就是序号，xyz三个值，2，就是第三个值，也就是z值，给你改一下你就知道了：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/0953553e730c044666.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/095410210cf7725253.png)
+
+### Serial Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/10021798c04c165942.png)
+
+在多个点之间，创建投影到指定直线上的距离标注。
+
+### Angular Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1010168a3fcd682211.png)
+
+根据给定三个点进行角度标注。
+
+### Angular Dimensions (Mesh)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1020237f1c53243217.png)
+
+网格角度标注。自动批量标注角，并且你可以通过输入最小最大角度来筛选需要的角度标注。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/102100cc0f4a215950.png)
+
+### Arc Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/102301545638368047.png)
+
+圆弧标注。
+
+### Circular Dimension
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/10264552b5d9925321.png)
+
+圆上截取区段进行角度标注。
+
+### Make2D & Make2D Parallel View
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/10480338a739998836.png)
+
+Rhino6.0，GH1.0当中新增加的功能，把rhino当中的make2d整合到了gh当中，可以直接在gh当中出图了。其中Make2D Parallel View就是根据你给定的矩形，来设置需要出图的视图角度。而且是轴测角度。你可以设置是否计算正切边缘和正切接缝。基本上和rhino手工都是一个操作。同时你可以在Clipping Plans输入端输入一个plane工作平面来进行剖切的make2d。就是我加了plane一直保存，也不知道是不是bug。设置好了点击compute计算，计算完毕，下方就会显示Done，表示计算完成。当然，如果你电脑好，你完全可以右键，选择automatic，自动更新，就是会很卡反正我不敢选。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1056000bdf0e690621.png)
+
+另外需要注意的是make2d的一些基本问题，比如如果两个物件没有求交线或者布尔，make2d的时候是不会给你计算交线的：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1057200e0034719260.png)
+
+你可以求一下交线，然后加在一起再去求make2d，这样出来的结果就ok了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/105820cd5118619930.png)
+
+至于make2d其他出现的情况，比如有断线啊，质量不高呀，甚至计算错误啊，时间慢啊，大家可以去看一下[Rhino & GH 日常百问](http://www.rhinostudio.cn/course/1397)课时38，有专门的讲解。
+
+# Make2D Perspective View
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/110238e0c597349002.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/110552044cc4297133.png)
+
+## **Make2D Perspective View**
+
+你还可以通过点和矩形，来定义一个摄像机位置来make2d透视角度。缺点就是你并不能直观得到摄像机的透视角度等信息。只能直观的知道，点和矩形距离越远，透视越小，越接近轴测。细心的小伙伴会法线第二张图断线了，这个短线就是因为摄像机没有覆盖到物件，你就想象一下，点和矩形形成的椎体，延伸出去，结果没保住make2d的物体，所以就断线了。所以最简单的，把矩形变大就行了，就等于说是把视野拓宽了。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1108066d6ca7636477.png)
+
+### Make2D Rhino View
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/111244cee513668160.png)
+
+当然，最方便的，肯定是直接用rhino里已经设置好的视角啦。
+
+## Graphs
+
+![img](http://www.rhinostudio.cn/files/course/2019/09-05/1503120658db467204.png)
+
+这里的几个运算器基本都算是数据可视化的运算器，可以非常直观的对数据图形化。
+
+### Bar Graph
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/161416857696843692.png)
+
+柱状图，可以将数据分成指定数量的区间，然后显示每个区间内数据的数量。你可以右键去调整柱的个数以及颜色。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/161522aa1736807686.png)
+
+### Legend
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/162443b93491887294.png)
+
+根据输入的一组颜色和文字创建一个带颜色的标签图例，这个图例的颜色过渡形式可以右键进行修改。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1625233100a6359959.png)
+
+### Pie Chart
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1626240e4073076298.png)
+
+环形数据结构显示器，可以用这样比较花哨的形式来展现数据结构，一圈代表一个数据结构，然而并没有什么卵用，因为这样看起来比较花，和树状结构图比起来完全没有可用性，看看就好。
+
+### Quick Graph
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/162802256e35776200.png)
+
+可以快速看到数据走势的运算器.鼠标点击运算器当中的图形就可以看到最大值最小值。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/162826a8a0c4578571.png)
+
+恰好，之前有小班同学问，这个东西可不可以用gh自己实现呢？当然可以啦，没有不可以，只有不知道！其实是个很简单的数据可视化的小例子：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/163407f36865318090.png)
+
+### Image Gallery
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/16410407e110973864.png)
+
+图片播放器，可以载入你指定网址的图片，双击运算器，输入图片网址即可，也可以播放本地图片，你要做的，就是把所有图片一股脑拖进loca image data的对话框里即可，只不过显示全都是按照原图尺寸大小，所以会不断变大变小·····随意如果你想用这个装13，记得把所有图片都统一一下分辨率哈。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/164359f5df5c686845.png)
+
+双击运算器，这里可以设置播放时间间隔，以及是否使用远程或本地图片，以及是否随机播放。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/164533daff23436319.png)
+
+### Value Tracker
+
+![img](https://img.kancloud.cn/c1/fa/c1fa6b5ab68c9a5cde3c89992c658590_1066x328.gif)
+
+记录数据变化的可视化运算器，除了装13，我不知道可以用来干啥，右键运算器可以修改其period，即速度，数值越小，记录越快。
+![img](https://img.kancloud.cn/3b/7b/3b7b68d0b75be88d48a5efb401a5f444_1111x585.png).
+设置数据刷新时间间隔
+![img](https://img.kancloud.cn/74/1e/741ea66be29fd029552ee814b3dbda68_1111x482.png)
+设置数据区间，一般都默认自动获取。
+![img](https://img.kancloud.cn/f0/1a/f01a1550c7753aac69bab9262fef8024_1180x552.png)
+
+## Preview
+
+### Create Material & Custom Preview
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/165703fb1fda612918.png)
+
+gh中创建材质，然后通过Custom Preview预览。不过这个材质比较简单，只有颜色，透明度，反光啥的，没有贴图等。创建材质这个很好理解，需要着重说一下的是Custom Preview，首先6.0开始，这个运算器支持bake材质了，以前得用插件，现在直接用它就可以把材质bake到rhino当中来。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/17052883de76894787.png)
+
+那说到材质，又有一个需要注意的，就是在渲染模式当中，Custom Preview是没有办法disable preview的，必须 Disable掉运算器才不会在界面显示。这是6.0之后的一个改动，因为6.0显示重写了，所以和5.0有点不一样。除此之外，6.0当中，渲染模式下，Custom Preview是无法给线着色的：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/171117561b01387288.png)
+
+如果想给线着色咋办呢？要么pipe成个细管给物体着色，要么就用human插件：
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/17141799f93a653489.png)
+
+### Cloud Display
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/171539b13b1b156448.png)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/17160008c5d5005356.png)
+
+点云显示样式，可以右键修改显示样式，有两种可供选择
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/171645d961b9906800.png)
+
+### Dot Display
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1717415cb410615493.png)
+
+显示点，与上面的运算器不同的是右键修改Lazy还是Greedy是用来控制修改Size时候的显示速度，Greedy的话修改Size值的时候会比较卡，但是精度高，反之亦然 。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/171818a46279841793.png)
+
+### Symbol (Simple) & Symbol Display
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/17221247b3ba882606.png)
+
+GH1.0新增的图标显示样式，很有意思，可以在指定点放置特殊图标，做分析图简直不要太爽。都省去了你去找各种图标的时间了。Symbol (Simple)的style端有很多样式可以选，箭头啊，三角啊，都有，大家就自己试试看吧。
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1724099f3fdb007624.png)
+
+### Symbol (Advanced)
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/172827b79917282658.png)
+
+这个可控性更高点，可以控制填充，描边颜色，线宽等。
+
+## Vecor
+
+### Point List
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/173654633ec6480188.png)
+
+将点集根据顺序进行编号显示。
+
+### Point Order
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/174135f36ba7769499.png)
+
+通过箭头连接显示点集的顺序。
+
+### Vector Display
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/174327f15607936727.png)
+
+矢量预览
+
+### Vector Display Ex
+
+![img](http://www.rhinostudio.cn/files/course/2019/11-15/1745222e4d2f594654.png)
+
+矢量预览进阶版，但是不能修改箭头大小这个很蛋疼，所以用的并不是很多。
+
+# Kangaroo2.0
+
+### 略

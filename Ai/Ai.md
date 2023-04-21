@@ -276,13 +276,17 @@
 
 ##### 释放——`Alt+Shift+Ctrl+B`
 
-封套扭曲——`Alt+O+V`
+##### 封套扭曲——`Alt+O+V`
 
-##### 用变形建立——`Alt+Shift+Ctrl+W`
+![img](https://upload-images.jianshu.io/upload_images/15119072-c448d218ce7e772c.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
 
-##### 用网格建立——`Alt+Ctrl+M`
+创建轮廓（Ctrl+Shift+O）>>>封套扭曲—用变形建立（Alt+Shift+Ctrl+W）>>>下弧形
 
-##### 用顶层对象建立——`Alt+Ctrl+C`
+###### 用变形建立——`Alt+Shift+Ctrl+W`
+
+###### 用网格建立——`Alt+Ctrl+M`
+
+###### 用顶层对象建立——`Alt+Ctrl+C`
 
 透视——`Alt+O+P`
 

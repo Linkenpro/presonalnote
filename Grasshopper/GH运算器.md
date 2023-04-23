@@ -3544,13 +3544,13 @@ emmmm，各位看看就好，反正我到现在位置从没用过这个运算器
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-04/120554260fb8426773.png)
 
-### Fit Line
+### Fit Line——逼近点集的直线
 
 生成一条最逼近所给点集的直线。
 
 ![img](http://www.rhinostudio.cn/files/course/2019/05-10/114624041557956451.png)
 
-### **Line**
+### **Line**——两点绘制直线
 
 通过起点终点绘制一条直线。
 
@@ -5752,7 +5752,7 @@ http://www.rhinostudio.cn/course/5
 
 求曲面和曲线相交的各种属性╮(╯▽╰)╭，你看这个属性，它又多又全。
 
-### Surface Split
+### Surface Split——线分割曲面
 
 ![img](http://www.rhinostudio.cn/files/course/2019/09-14/153550630da2260825.png)
 

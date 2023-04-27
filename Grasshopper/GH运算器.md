@@ -4363,17 +4363,15 @@ Tyep放样类型-5-Uniform：使物件节点向量均匀化
 
 根据两个曲线扫掠形成曲面，属于单轨放样的阉割版。
 
-### Extrude
+### Extrude——挤出
 
 ![img](http://www.rhinostudio.cn/files/course/2019/06-10/1103153b2460307453.png)
 
 挤出线或者曲面，Direction端指定挤出的矢量。
 
-### Extrude Along
+### Extrude Along——将曲线或者曲面沿着曲线挤出
 
 ![img](https://img.kancloud.cn/21/86/21863ce79e664e6c7ed073c764b7db3d_792x290.png)
-
-将曲线或者曲面沿着曲线挤出。有的同学可能有疑问，这个东西直接单轨扫掠不就行了么，为什么还单独做一个Extrude Along？其实你试一试马上就知道了：
 
 ![img](http://sce5a0b6c0d3wf-sb-qn.qiqiuyun.net/files/course/2019/06-10/11195396680d630615.png)
 
@@ -4385,7 +4383,7 @@ Tyep放样类型-5-Uniform：使物件节点向量均匀化
 
 ![img](http://sce5a0b6c0d3wf-sb-qn.qiqiuyun.net/files/course/2019/06-10/11210956236c213621.png)
 
-### Extrude Linear
+### Extrude Linear——沿着直线方向挤出
 
 ![img](http://www.rhinostudio.cn/files/course/2019/06-10/112515bc0bf9465514.png)
 
@@ -4393,13 +4391,13 @@ Tyep放样类型-5-Uniform：使物件节点向量均匀化
 
 ![img](http://www.rhinostudio.cn/files/course/2019/06-20/09582622a27a035926.png)
 
-### Extrude Point
+### Extrude Point——曲线/曲面，挤出到点
 
 ![img](http://www.rhinostudio.cn/files/course/2019/06-20/10043538385c352092.png)
 
 挤出曲线或者曲面到点，从而生成椎体。咱们前面说过，GH当中的loft是不能对线和点放样的，Rhino可以，所以在GH当中想通过线和点生成椎体，只能靠这个运算器。
 
-### Fragment Patch
+### Fragment Patch——碎片化patch补面
 
 ![img](http://www.rhinostudio.cn/files/course/2019/06-20/10083972abd9117658.png)
 

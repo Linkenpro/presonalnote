@@ -1,0 +1,196 @@
+﻿YSID ToolbarReset
+YS '_4View ZEA
+V MaxViewport
+B '_SetDisplayMode _Wireframe
+N '_SetDisplayMode _Shaded
+M '_SetDisplayMode _Rendered
+GU ! _Gumball _Toggle
+HI ! _History _Record _Updare _Enter
+EX ! _ExtractSrf
+K '_Zoom
+KK _Zoom _Selected
+SE '_SelCrv
+SW '_SelPt
+SR '_SelSrf
+SQ ! _SelDup
+H hide objects
+HH show objects
+HJ invert selection hide objects
+HHH ! _ShowSelected
+PO ! _Points
+CV _Curve
+XC ! _Polyline
+CC ! _Line _BothSides
+CVV ! _InterpCrv
+CVVV ! _InterpcrvOnSrf
+FU fullscreen
+OP _Options
+CF ! _Divide _Pause _Length
+CG ! _Divide
+VF ! _Helix
+VG ! _Spiral
+SD ! _Lock
+DS ! _Unlock
+CU ! _Circle
+VC ! _Pipe _Pause _Cap=_no _Thick=_No
+CVB ! _TweenCurves
+CI ! _Ellipse
+CO ! _Sphere
+CP ! _Ellipsoid
+CJ ! _Rectangle
+CK ! _Polygon
+CL ! _Box
+D _Scale1D
+DD _Scale2D
+DDD _Scale
+S _Sweep1
+SS _Sweep2
+W revolve
+L loft
+ZZ _Move
+O _BooleanSplit
+P patch
+U Blend curves
+I _PlanarSrf
+J _Join
+E _Explode
+Y ! _split
+T trim
+F _FilletEdge
+G mirror
+R Rebuild
+XX _Rotate
+BL _BlendSrf
+FG Extrude straight
+X _SetPt
+WW _RailRevolve
+VB Flip Direction
+FF _FilletSrf
+A _Project
+FFF _ChamferEdge
+Q _Offset
+QQ _OffsetSrf
+UU _BlendCrv
+JJ _Group
+EE _Ungroup
+YY _SplitEdge
+TT _MergeEdge
+BM _DraftAngleAnalysis
+BN _Zebra
+YU _ExtendSrf
+YK _SrfSeam
+SH _ShrinkTrimmedSrf
+BK _MatchSrf
+BJ _MergeSrf
+DF _Fillet
+BZ ! _Dim
+FGG _ExtrudeSrf
+AS _InsertKnot
+SA _RemoveKnot
+ZX ! _DupEdge
+NM _Intersect
+AR _ArrayPolar
+AT _Array
+PL _Plane
+TU _Turntable
+UV '_SelU
+VU '_SelV
+KS _RunKeyShot6
+YI ! _Extend _Enter  _Type=_Line
+RR _FitCrv
+RRR _FitSrf
+JK _Cap
+BKK _Match
+OO ! _BooleanUnion
+BNM '_ShowEdges
+BO ! _CageEdit
+ZD ! _Make2D
+GH ! _Mirror 0,0 0,1
+HG ! _Mirror 0,0 1,0
+AQ ! _PictureFrame
+YII ! _Extend _Enter  _Type=_Arc _Pause _ToPoint
+FD ! _Chamfer
+DFF ! _FilletCorners
+YUU ! _ExtendTrimmedSrf
+AA ! _Pull
+ZXX ! _ExtractIsoCurve
+KL ! _CreateUVCrv
+LK ! _FlowAlongSrf
+TY ! _Untrim
+WZ ! _TextObject
+XXX ! _Rotate3D
+BB ! _Copy
+DW ! _Orient c s a
+DWW ! _Orient3Pt
+LKK ! _Flow
+LJF ! _Twist
+AE ! _ArrayCrv
+UVN ! _MoveUVN
+BX ! _DimAligned
+BC ! _DimAngle
+WQ ! _Bend
+GR GradientView
+NO Notes
+DOT dot
+YD ! _RoundHole
+BOO ! _BoundingBox
+YP ! _Smash
+JE ! _JoinEdge
+ZXXX ! _ExtractWireframe
+BV ! _DimRadius
+BVV ! _Leader
+UI ! _EdgeSrf
+JY ! _MakeUniform
+AQQ _SetObjectDisplayMode
+DE ! _ChangeDegree
+WE ! _AreaCentroid
+WEE ! _VolumeCentroid
+QQQ ! _VariableOffsetSrf
+JKK ! _Shell
+TYY -_DeleteHole
+YDD ! _PlaceHole
+QW ! _OffsetCrvOnSrf
+QWW ! _Fin
+RH RhinoHair
+YKK ! _CrvSeam
+PLL ! _SrfPt
+DEL ! _RemoveMultiKnot
+VBN ! _CurvatureGraph
+AW ! _ArrayLinear
+GRA grasshopper
+RX ! _SoftMove
+QX ! _Shear
+VBB ! _Dir
+PH ! _Smooth
+DJ ! _Contour
+RT ! _RebuildEdges ENTER
+DFFF ! _Chamfer
+JM ! _NoEcho -_DocumentProperties _Mesh _Custom _Density=0.8 _MaxAngle=10 _AspectRatio=0 _MinEdgeLength=0 _MaxEdgeLength=0 _MaxEdgeSrf=0 _GridQuads=0 _Refine=_Yes _JaggedSeams=_No _SimplePlanes=_No _Enter _Enter _ShadedViewport
+XV _Between
+CCV ! _CurveThroughPt
+ERT ConvertToBeziers A
+FY Testtoggleroundpoints
+OOO ! _BooleanDifference
+KKK Dollyzoom
+FFFF ! _ApplyEdgeSoftening
+HO ! _HidePt
+HOO ! _Showpt
+HOP '_InvertPt
+JN ! _NoEcho -_DocumentProperties _Mesh _Custom _Density=0.2 _MaxAngle=20 _AspectRatio=0 _MinEdgeLength=0 _MaxEdgeLength=0 _MaxEdgeSrf=0 _GridQuads=0 _Refine=_Yes _JaggedSeams=_No _SimplePlanes=_No _Enter _Enter _ShadedViewport
+QQQQ ! _Shell
+YX .x 0
+xy .y 0
+CZ ! _Line _Perpendicular
+CUU ! _Circle P V
+FZ ! _BackgroundBitmap _Place _Pause _Pause _Enter _Enter Gray=no
+FX ! _BackgroundBitmap _Remove !
+FV ! _BackgroundBitmap _Scale _Pause _Pause _Pause !
+FC ! _BackgroundBitmap _Move _Pause _Pause !
+POO ! _CrvStart
+UP _UpdateKeyShot6
+LKKK ! _Splop
+II ! _NetworkSrf
+ZXC ! _CrvDeviation
+PM '_CPlane _3Point
+PlugInManager ! _OptionsPage _PlugIns
+AdvancedDisplay ! _OptionsPage _DisplayModes

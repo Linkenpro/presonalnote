@@ -125,3 +125,17 @@ ffmpeg -list_devices true -f dshow -i dummy
 ffmpeg -i 00.mp4 -i 00.mp3 -vcodec copy -acodec copy output.mp4
 ```
 
+##### 压缩视频到指定大小
+
+```
+将视频压缩指定大小
+
+ffmpeg  -i  Desktop/input.mp4  -fs 10MB  Desktop/output.mp4
+
+-fs 10 : 表示文件大小最大值为10MB
+
+——测试
+好像参数达到某个极限后无法再继续压缩
+
+```
+

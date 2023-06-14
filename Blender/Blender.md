@@ -24,3 +24,17 @@ hdr图下载：https://polyhaven.com/
 - 设置笔刷强度——Shift-F
 - 旋转笔刷纹理——Ctrl-F
 - 反转笔划切换——Ctrl
+
+##### Blender ——顶点倒角
+
+> 快捷键    Shift+Ctrl+B
+
+##### 隐藏未选中的面——Shift+H
+
+##### 取消隐藏——Alt+H
+
+
+
+##### 材质
+
+清漆

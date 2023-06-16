@@ -30,5 +30,41 @@ Eevee并不是光线跟踪引擎。它使用的是通过光栅化的多种算法
 
 在3D视图中使用的样本数。当设置样本数为零时，3D视图中将会不断采样。
 
+### Cycles 渲染器，使用GPU渲染
+
+> Preferences  >>  System  >>  Cycles Render Devices，选择*CUDA*、*OptiX*、*HIP*或*Metal*，oneAPI
+>
+> 场景渲染引擎+GPU计算
+>
+> 
+
+在
+
+##### 渲染技术支持
+
+###### CUDA——NVDIA显卡
+
+###### OptiX——NVDIA显卡
+
+###### HIP——AMD显卡
+
+###### Metal——苹果（macOS）
+
+###### OneAPI——英特尔显卡
+
+> 利用 oneAPI 并让英特尔 GPU 用于在 Cycles 中进行渲染
 
 
+
+#### 渲染灯光
+
+- 点光
+
+- 日光
+
+- 聚光灯
+
+> 可做舞台灯光
+![](F:\Git\presonalnote\Blender\picture\渲染舞台灯光.jpg)
+
+- 面光——可设置ies光

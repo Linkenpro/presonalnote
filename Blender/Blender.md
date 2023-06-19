@@ -60,3 +60,65 @@ Ctrl+J——材质打组
 
 
 > 制作3d logo
+
+#### 渲染灯光
+
+- 点光
+
+- 日光
+
+- 聚光灯
+
+> 可做舞台灯光
+> ![](F:\Git\presonalnote\Blender\picture\渲染舞台灯光.jpg)
+
+- 面光——可设置ies光
+
+### Blender 渲染物体和影子，不要地面
+
+> 1. ###### 切换渲染器为Cycles
+>
+> 2. ###### 新建一个足够大的平面网格A，用于接受阴影
+>
+> 3. ###### 选中平面新建的平面网格A，设置物体属性。在物体属性可见性选项卡里勾选遮罩阴影捕捉。
+
+### blender——让物体透明的同时显示来自其他物体的投影
+
+![img](https://i0.hdslb.com/bfs/article/2f5277674cece575a7f9690b5984d1d070343c79.png@942w_377h_progressive.webp)
+
+#### 操作步骤
+
+###### 1：将渲染引擎设置为cycles
+
+![img](https://i0.hdslb.com/bfs/article/a8fce3ae3e5a8676aa439917cae66ed045deda5a.png@942w_347h_progressive.webp)
+
+###### 2选中物体，在【物体属性-可见性】选项中勾选阴影捕捉
+
+![img](https://i0.hdslb.com/bfs/article/7a1d1118a257c6ccf833990efdcc1e48b383d579.png@942w_1095h_progressive.webp)
+
+#### 方法三
+
+针对cycles 物体属性 - 可见性 - 射线可见性 根据情况取消勾选,只要阴影就只勾阴影
+eevee时(适用cycles)只要阴影如图
+
+![img](https://tiebapic.baidu.com/forum/pic/item/68d7d7f9d72a60590fc34fce6d34349b013bba6f.jpg?tbpicau=2023-06-21-05_d4ebddddbfb97c087b3f8c187528899a)
+
+#### 实践方法
+
+1.设置渲染属性——渲染引擎选Cycles，胶片选项选【透明】,勾上【透明玻璃】
+
+![](F:\Git\presonalnote\Blender\picture\渲染属性设置1.jpg)
+
+2.设置地面的【物体属性】——【可见性】——【遮罩】——勾选【阴影捕捉】
+
+![](F:\Git\presonalnote\Blender\picture\渲染属性地面设置.jpg)
+
+#### 沿着曲线做模型阵列
+
+> 阵列修改器，固定数量，调节数量
+>
+> 曲线修改器，调节曲线的方向，法向，原点位置等，确保阵列起点
+>
+> 调整阵列模型的【旋转】与【位置】，确定阵列效果符合要求
+
+![](F:\Git\presonalnote\Blender\picture\沿着曲线阵列.jpg)

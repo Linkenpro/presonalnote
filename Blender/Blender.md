@@ -122,3 +122,4 @@ eevee时(适用cycles)只要阴影如图
 > 调整阵列模型的【旋转】与【位置】，确定阵列效果符合要求
 
 ![](F:\Git\presonalnote\Blender\picture\沿着曲线阵列.jpg)
+

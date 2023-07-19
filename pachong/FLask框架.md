@@ -458,3 +458,36 @@ static.html
 ```
 
 第12节 01min24sec
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/my.js') }}"></script>
+</head>
+<body>
+<img src="{{ url_for('static', filename='ironman.jpg') }}" alt="">
+<!--<img src="{{ url_for('static', filename='images/ironman.jpg') }}" alt="">-->
+</body>
+</html>
+```
+style.css
+
+```css
+body{
+    background-color: pink;
+}
+```
+
+js文件
+
+```js
+alert("我是在my.js中执行的！");
+```
+
+13课
+
+安装mysql

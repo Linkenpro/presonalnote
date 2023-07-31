@@ -108,3 +108,63 @@ a = (x for x in range(1,10))
 ```
 
 #### 迭代器与生成器
+
+迭代器是一个可以记住遍历的位置的对象
+
+迭代器有两个基本的方法：**iter()** 和 **next()**
+
+```python
+使用常规for语句进行遍历list=[1,2,3,4]
+it = iter(list)    # 创建迭代器对象
+print (next(it))   # 输出迭代器的下一个元素
+>>> 
+1
+
+print (next(it))
+>>> 
+2
+
+# 使用常规for语句进行遍历
+for x in it:
+    print (x, end=" ")
+    
+# 也可以使用 next() 函数
+while True:
+    try:
+        print (next(it))
+    except StopIteration:
+        sys.exit()
+```
+
+###### 创建一个迭代器
+
+把一个类作为一个迭代器使用需要在类中实现两个方法 __iter__() 与 __next__() 。
+
+__iter__() 方法返回一个特殊的迭代器对象， 这个迭代器对象实现了 __next__() 方法并通过 StopIteration 异常标识迭代的完成。
+
+__next__() 方法（Python 2 里是 next()）会返回下一个迭代器对象。
+
+> 创建一个返回数字的迭代器，初始值为 1，逐步递增 1：
+
+```python
+class MyNumbers:
+  def __iter__(self):
+    self.a = 1
+    return self
+ 
+  def __next__(self):
+    x = self.a
+    self.a += 1
+    return x
+ 
+myclass = MyNumbers()
+myiter = iter(myclass)
+ 
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+```
+
+###### StopIteration异常用于标识迭代的完成

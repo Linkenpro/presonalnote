@@ -10,6 +10,37 @@ echo
 echo hello world
 
 @echo off
+rem 默认情况下，批处理文件会在运行时显示其命令。第一条命令的目的是关闭显示。echo off "命令会关闭整个脚本的显示，但 "echo off "命令本身除外。前面的 "at "符号"@"使该命令也适用于它自己。
+```
+
+set
+
+```cmd
+# set /a 等号右边的字符串为被评估的数字表达式,就是表示计算
+set /A variable-name=value
+
+# 例子-打印message变量
+@echo off 
+set message=Hello World 
+echo %message%
+
+# 提供一个交互界面 set /p
+set /p var=请输入你的名字: 
+
+```
+
+```cmd
+@echo off 
+SET /A a = 5 
+SET /A b = 10 
+SET /A c = %a% + %b% 
+echo %c% 
+SET /A c = %a% - %b% 
+echo %c% 
+SET /A c = %b% / %a% 
+echo %c% 
+SET /A c = %b% * %a% 
+echo %c%
 ```
 
 pause
@@ -101,5 +132,33 @@ echo.
 rem 复制文件
 for /L %%a in (1 1 30) do copy E:\Json\js.json E:\Json\js%%a.json
 pause>nul
+```
+
+删除当前目录中的所有文件
+
+```cmd
+:: Deletes All files in the Current Directory With Prompts and Warnings
+::(Hidden, System, and Read-Only Files are Not Affected)
+:: @ECHO OFF
+DEL . DR
+```
+
+```cmd
+:: 删除当前目录中的所有文件
+::(隐藏、系统和只读文件不受影响) 
+:: 
+@ECHO OFF 
+DEL . 
+DR
+```
+
+dir
+
+```cmd
+@echo off 
+Rem 列出 Program files 目录中的所有文件
+dir "C:\Program Files" > C:\lists.txt
+echo "程序完成！"
+pause
 ```
 

@@ -16,3 +16,30 @@ finally:
     csvFile.close()
 ```
 
+##### 构建csv替换文本，程序
+
+```python
+import csv
+
+sum_rows = 100      # 要生成的行数
+num_columns = 9     # 每行的数字数量
+start_num = 115532  # 起始数字
+
+# 生成数据
+data = [['num1', 'num2', 'num3', 'num4', 'num5', 'num6', 'num7', 'num8', 'num9']]
+for i in range(sum_rows):
+    row = list(range(i * num_columns + start_num, (i + 1) * num_columns + start_num))
+    data.append(row)
+
+# 指定要创建的CSV文件的名称
+csv_file = "number8.csv"
+
+# 打开CSV文件并写入数据
+with open(csv_file, mode="w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerows(data)
+
+print(f"{csv_file} 创建已并写入成功")
+
+```
+

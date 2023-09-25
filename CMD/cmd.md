@@ -162,3 +162,13 @@ echo "程序完成！"
 pause
 ```
 
+##### 创建空白文件夹
+
+```cmd
+@echo off
+Rem 序号8-27的文件夹
+for /l %%i in (8,1,27) do (
+  mkdir "%%i"
+)
+```
+

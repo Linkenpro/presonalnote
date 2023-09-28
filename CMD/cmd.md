@@ -91,10 +91,13 @@ sort
 
 shutdown
 
-```
+```cmd
 /s
 
 /p
+
+rem 定时关机，2个小时后
+shutdown /s /t 7200
 ```
 
 telnet
@@ -126,7 +129,8 @@ for /L %%a in (1 1 30) do copy E:\Json\js.json E:\Json\js%%a.json
 复制文件，按顺序命名
 
 ```cmd
-@echo off  
+@echo off
+chcp 65001
 echo "复制文件........."  
 echo.  
 rem 复制文件

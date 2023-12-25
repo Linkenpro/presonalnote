@@ -89,7 +89,7 @@ sort
 
 ```
 
-shutdown
+shutdown——关机
 
 ```cmd
 /s

@@ -1,10 +1,11 @@
-cmd
+###### cmd查看命令
 
 ```cmd
 set /?
+rem 查看相关说明
 ```
 
-echo
+###### echo
 
 ```cmd
 echo hello world
@@ -13,7 +14,7 @@ echo hello world
 rem 默认情况下，批处理文件会在运行时显示其命令。第一条命令的目的是关闭显示。echo off "命令会关闭整个脚本的显示，但 "echo off "命令本身除外。前面的 "at "符号"@"使该命令也适用于它自己。
 ```
 
-set
+###### set
 
 ```cmd
 # set /a 等号右边的字符串为被评估的数字表达式,就是表示计算
@@ -43,25 +44,26 @@ SET /A c = %b% * %a%
 echo %c%
 ```
 
-pause
+###### pause
+
+```cmd
+pause 
+rem 暂停
+```
+
+###### ping
 
 ```cmd
 
 ```
 
-ping
-
-```cmd
-
-```
-
-rem
+###### rem
 
 ```cmd
 rem 注释
 ```
 
-start
+###### start
 
 ```cmd
 start /max d:\
@@ -69,13 +71,13 @@ start /max d:\
 start /min d:\
 ```
 
-call
+###### call
 
 ```
 不同程序的调用
 ```
 
-sort
+###### sort
 
 ```
 排序
@@ -89,7 +91,9 @@ sort
 
 ```
 
-shutdown——关机
+###### shutdown
+
+> 关机
 
 ```cmd
 /s
@@ -100,13 +104,13 @@ rem 定时关机，2个小时后
 shutdown /s /t 7200
 ```
 
-telnet
+###### telnet
 
 ```cmd
 查看端口是否开放
 ```
 
-copy
+###### copy
 
 ```cmd
 rem 复制文件
@@ -114,13 +118,16 @@ copy E:\Json\js.json E:\Json\js1.json
 copy E:\Json\js.json E:\Json\js2.json
 ```
 
-for循环
+###### for
+
+> 循环
 
 ```cmd
 for in do
 ```
 
-模仿
+> 练习
+>
 
 ```cmd
 for /L %%a in (1 1 30) do copy E:\Json\js.json E:\Json\js%%a.json
@@ -156,7 +163,7 @@ DEL .
 DR
 ```
 
-dir
+###### dir
 
 ```cmd
 @echo off 
@@ -166,7 +173,7 @@ echo "程序完成！"
 pause
 ```
 
-##### 创建空白文件夹
+> 创建空白文件夹
 
 ```cmd
 @echo off
@@ -176,3 +183,27 @@ for /l %%i in (8,1,27) do (
 )
 ```
 
+###### rmdir
+
+> 删除文件夹，完整案例
+
+```cmd
+@echo off
+chcp 65001
+
+echo 删除文件夹......
+rmdir /s /q D:\Bilibili_download
+rmdir /s /q D:\DiskGenius
+rmdir /s /q D:\Kugou
+echo 删除完成！
+pause
+```
+
+- `/s` 表示删除指定目录以及其中的所有子目录和文件。
+- `/q` 表示以静默模式执行，即不会询问确认。
+
+> chcp 65001——解决中文显示乱码问题
+>
+> bat代码如何处理中文目录
+>
+> 使用——VSCode解决文本编辑生成的中文乱码问题

@@ -207,3 +207,16 @@ pause
 > bat代码如何处理中文目录
 >
 > 使用——VSCode解决文本编辑生成的中文乱码问题
+
+###### 例子2
+
+```
+rmdir /s /q F:\Git
+rmdir /s /q D:\F
+rmdir /s /q D:\Kugou
+rmdir /s /q D:\M3U8
+rmdir /s /q D:\m3u8DL
+rmdir /s /q D:\Materialize
+
+```
+

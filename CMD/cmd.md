@@ -210,13 +210,18 @@ pause
 
 ###### 例子2
 
-```
+```cmd
+@echo off
+chcp 65001
+
 rmdir /s /q F:\Git
 rmdir /s /q D:\F
 rmdir /s /q D:\Kugou
 rmdir /s /q D:\M3U8
 rmdir /s /q D:\m3u8DL
 rmdir /s /q D:\Materialize
+rmdir /s /q C:\Users\PC-2.3\Documents\WeChat Files
 
+pause
 ```
 

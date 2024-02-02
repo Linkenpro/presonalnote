@@ -8,3 +8,5 @@ Hostname ssh.github.com
 Port 443
 保存
 :wq
+
+> 按ESC键切换到下面输入，按I切换上页输入

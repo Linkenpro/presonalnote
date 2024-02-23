@@ -101,9 +101,7 @@ Ctrl+J——材质打组
 #### 方法三
 
 针对cycles 物体属性 - 可见性 - 射线可见性 根据情况取消勾选,只要阴影就只勾阴影
-eevee时(适用cycles)只要阴影如图
-
-![img](https://tiebapic.baidu.com/forum/pic/item/68d7d7f9d72a60590fc34fce6d34349b013bba6f.jpg?tbpicau=2023-06-21-05_d4ebddddbfb97c087b3f8c187528899a)
+eevee时(适用cycles)只要阴影
 
 #### 实践方法
 
@@ -124,4 +122,26 @@ eevee时(适用cycles)只要阴影如图
 > 调整阵列模型的【旋转】与【位置】，确定阵列效果符合要求
 
 ![](F:\Git\presonalnote\Blender\picture\沿着曲线阵列.jpg)
+
+### blender选择
+
+选择面>>>切换点`1`即可切换选择点
+
+`Alt`点击边循环选择
+
+`Ctrl`+`Alt`选择非循环
+
+`L`——选择相连的元素
+
+场景练习
+
+> 酒瓶+红酒器家电产品*1空气净化*2加湿器
+
+模型网
+
+```
+https://www.aigei.com/————爱给
+
+https://www.znzmo.com/————知末
+```
 

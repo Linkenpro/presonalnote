@@ -139,3 +139,11 @@ ffmpeg  -i  Desktop/input.mp4  -fs 10MB  Desktop/output.mp4
 
 ```
 
+#### 压缩图片大小
+
+```
+ffmpeg -i wfypfa3ha_2K_Albedo.jpg -vf "scale=1024:1024" wfypfa3ha_1K_Albedo.jpg
+
+ffmpeg -i wfypfa3ha_2K_Translucency.jpg -vf "scale=1024:1024" wfypfa3ha_1K_Translucency.jpg
+```
+
